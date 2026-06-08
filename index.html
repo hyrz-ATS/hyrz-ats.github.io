@@ -577,6 +577,178 @@ tr:last-child td{border-bottom:none;}tr:hover td{background:rgba(255,255,255,0.0
 }
 .btn-edit:hover { background: rgba(129,140,248,0.28); }
 
+
+/* ══════════════════════════════════════════════
+   MOBILE RESPONSIVE
+══════════════════════════════════════════════ */
+
+/* Hamburger button */
+#hamburger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 8px;
+  color: var(--text);
+  font-size: 22px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+/* Sidebar overlay for mobile */
+#sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  z-index: 99;
+}
+
+@media (max-width: 768px) {
+  /* Show hamburger */
+  #hamburger { display: flex; align-items: center; }
+
+  /* Sidebar slides in/out */
+  .sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    z-index: 200;
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  #sidebar-overlay.open { display: block; }
+
+  /* Main takes full width */
+  .main { margin-left: 0 !important; }
+
+  /* Topbar */
+  .topbar { padding: 0 12px; gap: 8px; }
+  .search-box { display: none; }
+  .page-title { font-size: 13px; }
+  .theme-toggle .toggle-track,
+  .theme-toggle #theme-label { display: none; }
+  .theme-toggle { padding: 5px 8px; gap: 0; }
+
+  /* Content padding */
+  .content { padding: 14px; padding-bottom: 88px; }
+
+  /* Stats grid → 2 cols */
+  .stats-grid { grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+  .stat-value { font-size: 22px; }
+
+  /* Grid2 → single col */
+  .grid2 { grid-template-columns: 1fr; gap: 12px; }
+
+  /* Hours summary → 2 cols */
+  .hours-summary-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+
+  /* Tables: scroll horizontally */
+  .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  table { min-width: 600px; }
+  td, th { padding: 8px 10px; font-size: 11px; }
+
+  /* Action rows */
+  .action-row { flex-direction: column; align-items: stretch; gap: 10px; }
+  .action-row > div { width: 100%; }
+  .action-row .filter-row { flex-direction: column; }
+  .action-row .filter-row input,
+  .action-row .filter-row select { width: 100% !important; }
+  .action-row > div:last-child { display: flex; gap: 8px; }
+  .action-row > div:last-child .btn { flex: 1; justify-content: center; }
+
+  /* Modal */
+  .modal { padding: 18px; border-radius: 12px; max-height: 95vh; }
+  .mform-grid { grid-template-columns: 1fr; }
+  .mform-group.full { grid-column: 1; }
+  .form-grid { grid-template-columns: 1fr; }
+
+  /* Pipeline columns */
+  .pipeline { flex-direction: column; }
+  .pipeline-col { min-width: unset; }
+
+  /* Auth screen */
+  #auth-screen { flex-direction: column; }
+  .auth-left { display: none; }
+  .auth-right {
+    width: 100%;
+    min-width: unset;
+    padding: 32px 20px;
+    min-height: 100vh;
+  }
+
+  /* Profile grid */
+  .profile-grid { grid-template-columns: 1fr; }
+
+  /* Check-in hero */
+  .checkin-hero { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .checkin-clock { font-size: 36px; }
+  .checkin-btn-group { width: 100%; }
+  .btn-checkin, .btn-checkout { flex: 1; justify-content: center; text-align: center; }
+
+  /* Bool search */
+  .bool-input-row { flex-direction: column; }
+  .bool-main-input { min-width: unset; width: 100%; }
+  .bool-input-row > div:last-child { width: 100%; display: flex; gap: 8px; }
+  .bool-input-row > div:last-child .btn { flex: 1; justify-content: center; }
+
+  /* Search mode tabs */
+  .search-mode-tabs { width: 100%; }
+  .search-tab { flex: 1; }
+
+  /* User pill – hide name/role */
+  .user-pill-name, .user-pill-role { display: none; }
+  .user-pill { padding: 4px; }
+
+  /* LinkedIn banner */
+  .linkedin-banner {
+    left: 0 !important;
+    padding: 10px 14px;
+    gap: 10px;
+  }
+  .linkedin-banner .li-msg { display: none; }
+  .linkedin-banner-left { gap: 8px; }
+
+  /* AI panel */
+  #ai-panel {
+    right: 8px;
+    left: 8px;
+    width: auto;
+    bottom: 80px;
+  }
+  #ai-fab { right: 16px; bottom: 70px; }
+
+  /* Sidebar linkedin card */
+  .sidebar-linkedin { margin: 8px; }
+
+  /* Cards */
+  .card { padding: 14px; }
+  .card-header { flex-wrap: wrap; gap: 8px; }
+
+  /* Bool results bar */
+  .bool-results-bar { flex-wrap: wrap; gap: 6px; }
+
+  /* fat options */
+  .fat-options { gap: 6px; }
+  .fat-option { font-size: 11px; padding: 6px 10px; }
+
+  /* Checkin log table */
+  .checkin-log-card table { min-width: 500px; }
+}
+
+@media (max-width: 480px) {
+  .stats-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .stat-value { font-size: 20px; }
+  .stat-label { font-size: 10px; }
+  .hours-summary-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .hc-value { font-size: 18px; }
+  .page-title { font-size: 12px; }
+  .topbar { height: 50px; }
+  .auth-right { padding: 24px 16px; }
+  .auth-form-title { font-size: 20px; }
+  .user-type-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+}
+
 </style>
 </head>
 <body>
@@ -647,19 +819,8 @@ tr:last-child td{border-bottom:none;}tr:hover td{background:rgba(255,255,255,0.0
           <span class="forgot-link" onclick="showForgot()">Forgot password?</span>
         </div>
         <button class="auth-btn" onclick="doSignIn()">Sign In</button>
-        <div class="auth-switch">Don't have an account? <a onclick="showAuthTab('signup')">Create one free</a></div>
-        <div style="margin-top:24px;padding-top:20px;border-top:1px solid var(--border)">
-          <div style="font-size:11px;color:var(--muted);margin-bottom:12px;text-align:center">DEMO ACCOUNTS</div>
-          <div style="display:flex;flex-direction:column;gap:8px">
-            <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:10px 14px;cursor:pointer;transition:all 0.15s" onclick="fillDemo('admin@hyrz.qa','Admin@123')" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
-              <div style="font-size:12px;font-weight:600;color:var(--text)">&#128081; Admin Demo</div>
-              <div style="font-size:11px;color:var(--muted)">admin@hyrz.qa &nbsp;·&nbsp; Admin@123</div>
-            </div>
-            <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:10px 14px;cursor:pointer;transition:all 0.15s" onclick="fillDemo('recruiter@hyrz.qa','Rec@123')" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">
-              <div style="font-size:12px;font-weight:600;color:var(--text)">&#128100; Recruiter Demo</div>
-              <div style="font-size:11px;color:var(--muted)">recruiter@hyrz.qa &nbsp;·&nbsp; Rec@123</div>
-            </div>
-          </div>
+        <div class="auth-switch">Don't have an account? <a onclick="showAuthTab('signup')">Click here to create for free</a></div>
+        
         </div>
       </div>
 
@@ -727,6 +888,7 @@ tr:last-child td{border-bottom:none;}tr:hover td{background:rgba(255,255,255,0.0
 
 <!-- ==================== APP SCREEN ==================== -->
 <div id="app-screen">
+<div id="sidebar-overlay" onclick="closeSidebar()"></div>
   <div class="app-wrap">
     <div class="sidebar">
       <div class="logo">
@@ -767,6 +929,7 @@ tr:last-child td{border-bottom:none;}tr:hover td{background:rgba(255,255,255,0.0
 
     <div class="main">
       <div class="topbar">
+        <button id="hamburger" onclick="toggleSidebar()" aria-label="Menu">&#9776;</button>
         <div class="page-title" id="topbar-title">Dashboard</div>
         <div class="topbar-actions">
           <div class="search-box"><i class="ti ti-search"></i><input placeholder="Search..."></div>
@@ -781,7 +944,7 @@ tr:last-child td{border-bottom:none;}tr:hover td{background:rgba(255,255,255,0.0
             <div class="user-dropdown" id="user-dropdown">
               <div class="user-dropdown-header">
                 <div class="user-dropdown-name" id="dd-name">Mirza Shabbir</div>
-                <div class="user-dropdown-email" id="dd-email">admin@hyrz.qa</div>
+                <div class="user-dropdown-email" id="dd-email"></div>
                 <div class="user-dropdown-company" id="dd-company">HyrZ Recruitment</div>
               </div>
               <div class="dropdown-item" onclick="nav(document.querySelector('.nav-item[onclick*=profile]'),'profile')"><i class="ti ti-user-circle"></i> My Profile</div>
@@ -801,7 +964,7 @@ tr:last-child td{border-bottom:none;}tr:hover td{background:rgba(255,255,255,0.0
           <div class="stats-grid">
             <div class="stat-card"><div class="stat-icon" style="background:rgba(56,189,248,0.1)"><i class="ti ti-briefcase" style="color:var(--accent)"></i></div><div class="stat-label">Active Jobs</div><div class="stat-value" id="d-jobs">0</div><div class="stat-sub">Open positions</div></div>
             <div class="stat-card"><div class="stat-icon" style="background:rgba(52,211,153,0.1)"><i class="ti ti-users" style="color:var(--success)"></i></div><div class="stat-label">Candidates</div><div class="stat-value" id="d-cands">0</div><div class="stat-sub">Total in database</div></div>
-            <div class="stat-card"><div class="stat-icon" style="background:rgba(251,191,36,0.1)"><i class="ti ti-building" style="color:var(--warning)"></i></div><div class="stat-label">Clients</div><div class="stat-value" id="d-clients">3</div><div class="stat-sub">Active clients</div></div>
+            <div class="stat-card"><div class="stat-icon" style="background:rgba(251,191,36,0.1)"><i class="ti ti-building" style="color:var(--warning)"></i></div><div class="stat-label">Clients</div><div class="stat-value" id="d-clients">0</div><div class="stat-sub">Active clients</div></div>
             <div class="stat-card"><div class="stat-icon" style="background:rgba(129,140,248,0.1)"><i class="ti ti-trophy" style="color:var(--accent2)"></i></div><div class="stat-label">Placed</div><div class="stat-value" id="d-placed">0</div><div class="stat-sub">This month</div></div>
           </div>
           <div class="grid2">
@@ -862,7 +1025,7 @@ tr:last-child td{border-bottom:none;}tr:hover td{background:rgba(255,255,255,0.0
             </div>
           </div>
           <div class="card" style="padding:0;overflow:hidden"><div class="table-wrap"><table>
-            <thead><tr><th>SL</th><th>Name</th><th>Position</th><th>Nationality</th><th>Location</th><th>Visa</th><th>Notice</th><th>Exp</th><th>Curr PKG</th><th>Exp PKG</th><th>Marital</th><th>CV</th><th>CV Match</th><th>Stage</th><th></th></tr></thead>
+            <thead><tr><th>SL</th><th>Name</th><th>Position</th><th>Nationality</th><th>Location</th><th>Visa</th><th>Notice</th><th>Age</th><th>Exp</th><th>Curr PKG</th><th>Exp PKG</th><th>Marital</th><th>CV</th><th>CV Match</th><th>Stage</th><th></th></tr></thead>
             <tbody id="cands-tbody"><tr><td colspan="15" class="empty-state">No candidates yet.</td></tr></tbody>
           </table></div></div>
         </div>
@@ -920,7 +1083,7 @@ tr:last-child td{border-bottom:none;}tr:hover td{background:rgba(255,255,255,0.0
               <div class="profile-avatar-big" id="profile-avatar-big">MS</div>
               <div class="profile-name" id="profile-fullname">Mirza Shabbir</div>
               <div class="profile-role-badge" id="profile-role-badge">Admin</div>
-              <div class="profile-email" id="profile-email-display">admin@hyrz.qa</div>
+              <div class="profile-email" id="profile-email-display"></div>
               <div class="profile-company" id="profile-company-display">HyrZ Recruitment</div>
               <div class="profile-stats">
                 <div class="profile-stat"><div class="profile-stat-val" id="ps-jobs">0</div><div class="profile-stat-lbl">Jobs</div></div>
@@ -982,6 +1145,7 @@ tr:last-child td{border-bottom:none;}tr:hover td{background:rgba(255,255,255,0.0
       <div class="mform-group"><label>Visa Status</label><select id="c-visa"><option value="">Select</option><option>Employment Visa</option><option>Visit Visa</option><option>Tourist Visa</option><option>Family Visa</option><option>Student Visa</option><option>Freelance Visa</option><option>No Visa (Outside Qatar)</option><option>Transferable</option><option>Non-Transferable</option></select></div>
       <div class="mform-group"><label>Notice Period</label><select id="c-notice"><option value="">Select</option><option>Immediately Available</option><option>1 Week</option><option>2 Weeks</option><option>1 Month</option><option>2 Months</option><option>3 Months</option><option>More than 3 Months</option></select></div>
       <div class="mform-group"><label>Experience (years)</label><input id="c-exp" type="number" placeholder="e.g. 5"></div>
+      <div class="mform-group"><label>Age</label><input id="c-age" type="number" placeholder="e.g. 28" min="18" max="70"></div>
       <div class="mform-group"><label>Current Package (QAR)</label><input id="c-cpkg" type="number" placeholder="e.g. 4000"></div>
       <div class="mform-group"><label>Expected Package (QAR)</label><input id="c-epkg" type="number" placeholder="e.g. 5500"></div>
       <div class="mform-group full"><label>Pipeline Stage</label><select id="c-stage"><option value="applied">Applied</option><option value="shortlisted">Shortlisted</option><option value="interview">Interview</option><option value="offered">Offered</option><option value="placed">Placed</option></select></div>
@@ -1067,6 +1231,7 @@ tr:last-child td{border-bottom:none;}tr:hover td{background:rgba(255,255,255,0.0
         <select id="ec-notice"><option value="">Select</option><option>Immediately Available</option><option>1 Week</option><option>2 Weeks</option><option>1 Month</option><option>2 Months</option><option>3 Months</option><option>More than 3 Months</option></select>
       </div>
       <div class="mform-group"><label>Experience (years)</label><input id="ec-exp" type="number" placeholder="e.g. 5"></div>
+      <div class="mform-group"><label>Age</label><input id="ec-age" type="number" placeholder="e.g. 28" min="18" max="70"></div>
       <div class="mform-group"><label>Current Package (QAR)</label><input id="ec-cpkg" type="number" placeholder="e.g. 4000"></div>
       <div class="mform-group"><label>Expected Package (QAR)</label><input id="ec-epkg" type="number" placeholder="e.g. 5500"></div>
       <div class="mform-group full"><label>Pipeline Stage</label>
@@ -1213,10 +1378,7 @@ tr:last-child td{border-bottom:none;}tr:hover td{background:rgba(255,255,255,0.0
 
 <script>
 // ======== AUTH STATE ========
-let usersDB = {
-  'admin@hyrz.qa': {password:'Admin@123',fname:'Mirza',lname:'Shabbir',company:'HyrZ Recruitment',role:'Admin',phone:'+974 5555 0001',location:'Doha, Qatar'},
-  'recruiter@hyrz.qa': {password:'Rec@123',fname:'Sara',lname:'Ahmed',company:'HyrZ Recruitment',role:'Recruiter',phone:'+974 5555 0002',location:'Doha, Qatar'}
-};
+let usersDB = {};
 let currentUser = null;
 let selectedUserType = 'Recruiter';
 
@@ -1248,10 +1410,7 @@ function showAuthTab(tab) {
   document.getElementById('signup-form').style.display = tab==='signup'?'block':'none';
 }
 
-function fillDemo(email, pw) {
-  document.getElementById('si-email').value = email;
-  document.getElementById('si-password').value = pw;
-}
+
 
 function showAuthError(id, msg) {
   const el = document.getElementById(id);
@@ -1272,8 +1431,8 @@ function doSignIn() {
   currentUser = {email, ...user};
   const remember = document.getElementById('si-remember').checked;
   if(remember) saveSession();
-  addActivity('Signed in to HyrZ');
   initApp();
+  addActivity('Signed in to HyrZ');
 }
 
 function doSignUp() {
@@ -1289,19 +1448,15 @@ function doSignUp() {
   usersDB[email]={password:pw,fname,lname,company:company||'HyrZ',role:selectedUserType,phone:'',location:''};
   saveUsersDB();
   currentUser={email,fname,lname,company:company||'HyrZ',role:selectedUserType,phone:'',location:''};
-  addActivity('Created account on HyrZ');
   initApp();
+  addActivity('Created account on HyrZ');
 }
 
 function doSignOut() {
   currentUser = null;
   clearSession();
   jobs=[]; candidates=[]; cvFiles={}; cvTexts={};
-  clients=[
-    {id:1,company:'Gulf Hospitality Group',industry:'Hospitality',contact:'Ahmed Al-Rashid',email:'ahmed@ghg.qa',phone:'+974 4444 1234',location:'Doha',status:'Active'},
-    {id:2,company:'Qatar Construction Co',industry:'Construction',contact:'Sarah Johnson',email:'sarah@qcc.qa',phone:'+974 5555 6789',location:'Lusail',status:'Active'},
-    {id:3,company:'Al Meera Retail',industry:'Retail',contact:'Fatima Al-Kuwari',email:'fatima@almeera.qa',phone:'+974 3333 9012',location:'Al Wakra',status:'Pending'}
-  ];
+  clients=[];
   document.getElementById('app-screen').style.display='none';
   document.getElementById('auth-screen').style.display='flex';
   hideFeedbackFab();
@@ -1335,7 +1490,7 @@ function checkPasswordStrength(pw) {
 }
 
 function showForgot() {
-  showAuthSuccessMsg('signin-success','Password reset is not available in demo mode. Use the demo credentials.');
+  showAuthSuccessMsg('signin-success','Please contact the administrator to reset your password.');
 }
 
 function initApp() {
@@ -1432,7 +1587,8 @@ function addActivity(text) {
   const firstWord = text.split(' ')[0];
   const ic = icons[firstWord]||'ti-point';
   const bg = colors[firstWord]||'rgba(100,116,139,0.1)';
-  document.getElementById('activity-log').innerHTML = activityLog.map(a=>`
+  const alEl = document.getElementById('activity-log'); if(!alEl) return;
+  alEl.innerHTML = activityLog.map(a=>`
     <div class="activity-item"><div class="activity-dot" style="background:${bg}"><i class="ti ${ic}" style="font-size:14px;color:var(--accent2)"></i></div><div><div class="activity-text">${a.text}</div><div class="activity-time">${a.time}</div></div></div>
   `).join('');
 }
@@ -1532,11 +1688,7 @@ function highlightText(text,query){
 
 // ======== DATA ========
 let jobs=[],candidates=[],cvFiles={},cvTexts={};
-let clients=[
-  {id:1,company:'Gulf Hospitality Group',industry:'Hospitality',contact:'Ahmed Al-Rashid',email:'ahmed@ghg.qa',phone:'+974 4444 1234',location:'Doha',status:'Active'},
-  {id:2,company:'Qatar Construction Co',industry:'Construction',contact:'Sarah Johnson',email:'sarah@qcc.qa',phone:'+974 5555 6789',location:'Lusail',status:'Active'},
-  {id:3,company:'Al Meera Retail',industry:'Retail',contact:'Fatima Al-Kuwari',email:'fatima@almeera.qa',phone:'+974 3333 9012',location:'Al Wakra',status:'Pending'}
-];
+let clients=[];
 let selectedFAT=[],pendingCVFile=null,pendingCVText='';
 
 // ======== PERSISTENCE ========
@@ -1560,9 +1712,6 @@ function loadData() {
   } catch(e) {}
 }
 
-{e.preventDefault();document.getElementById('cv-drop-zone').classList.add('dragging');}
-function handleDragLeave(e){document.getElementById('cv-drop-zone').classList.remove('dragging');}
-function handleDrop(e){e.preventDefault();document.getElementById('cv-drop-zone').classList.remove('dragging');const f=e.dataTransfer.files[0];if(f)handleCVSelect(f);}
 function handleCVSelect(file){
   if(!file)return;
   if(file.size>10*1024*1024){showToast('File too large. Max 10MB.','var(--danger)');return;}
@@ -1579,10 +1728,11 @@ function saveCandidate(){
   const name=document.getElementById('c-name').value.trim();
   if(!name){showToast('Please enter candidate name.','var(--danger)');return;}
   const id=Date.now();
-  candidates.push({id,sl:candidates.length+1,name,position:document.getElementById('c-position').value,nationality:document.getElementById('c-nationality').value,location:document.getElementById('c-location').value,marital:document.getElementById('c-marital').value,visa:document.getElementById('c-visa').value,notice:document.getElementById('c-notice').value,exp:document.getElementById('c-exp').value,cpkg:document.getElementById('c-cpkg').value,epkg:document.getElementById('c-epkg').value,stage:document.getElementById('c-stage').value,created:new Date().toLocaleDateString(),cvName:pendingCVFile?pendingCVFile.name:null});
+  candidates.push({id,sl:candidates.length+1,name,position:document.getElementById('c-position').value,nationality:document.getElementById('c-nationality').value,location:document.getElementById('c-location').value,marital:document.getElementById('c-marital').value,visa:document.getElementById('c-visa').value,notice:document.getElementById('c-notice').value,exp:document.getElementById('c-exp').value,cpkg:document.getElementById('c-cpkg').value,epkg:document.getElementById('c-epkg').value,age:document.getElementById('c-age').value,
+    stage:document.getElementById('c-stage').value,created:new Date().toLocaleDateString(),cvName:pendingCVFile?pendingCVFile.name:null});
   if(pendingCVFile){cvFiles[id]=pendingCVFile;cvTexts[id]=pendingCVText||'';}
   closeModal('cand-modal');
-  ['c-name','c-position','c-location','c-exp','c-cpkg','c-epkg'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  ['c-name','c-position','c-location','c-exp','c-age','c-cpkg','c-epkg'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
   ['c-nationality','c-marital','c-visa','c-notice'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
   document.getElementById('c-stage').value='applied';removePendingCV();
   document.getElementById('cand-badge').textContent=candidates.length;
@@ -1607,7 +1757,7 @@ function renderCandidates(list,boolQuery){
       <td>${boolQuery?highlightText(c.position||'-',boolQuery):(c.position||'-')}</td>
       <td>${c.nationality||'-'}</td><td>${c.location||'-'}</td>
       <td><span class="badge badge-blue" style="font-size:9px">${c.visa||'-'}</span></td>
-      <td>${c.notice||'-'}</td><td>${c.exp?c.exp+'y':'-'}</td>
+      <td>${c.notice||'-'}</td><td>${c.age||'-'}</td><td>${c.exp?c.exp+'y':'-'}</td>
       <td>${c.cpkg?'QAR '+Number(c.cpkg).toLocaleString():'-'}</td>
       <td>${c.epkg?'QAR '+Number(c.epkg).toLocaleString():'-'}</td>
       <td>${c.marital||'-'}</td><td>${cvCell}</td><td>${cvMatchCell}</td>
@@ -1678,6 +1828,7 @@ function deleteClient(id){clients=clients.filter(cl=>cl.id!==id);renderClients()
 function updateDashboard(){
   document.getElementById('d-jobs').textContent=jobs.length;
   document.getElementById('d-cands').textContent=candidates.length;
+  document.getElementById('d-clients').textContent=clients.length;
   document.getElementById('d-placed').textContent=candidates.filter(c=>c.stage==='placed').length;
   const jl=document.getElementById('dash-jobs-list');
   jl.innerHTML=jobs.length?jobs.slice(-5).reverse().map(j=>`<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)"><div><div style="font-size:12px;font-weight:600">${j.position}</div><div style="font-size:11px;color:var(--muted)">${j.location||''} · ${j.industry||''}</div></div><span class="badge ${j.status==='Active'?'badge-green':j.status==='Pending'?'badge-yellow':'badge-red'}">${j.status}</span></div>`).join(''):'<div class="empty-state"><i class="ti ti-briefcase" style="font-size:36px;display:block;margin-bottom:10px"></i>No jobs yet</div>';
@@ -1699,7 +1850,7 @@ function exportCSV(type){
   const list=lastBoolResults&&currentSearchMode==='bool'?lastBoolResults:candidates;
   let csv='';
   if(type==='jobs'){csv='SL,Position,Location,Industry,Working Days,Hours,Salary (QAR),FAT,Status,Created\n';jobs.forEach((j,i)=>csv+=i+1+',"'+j.position+'","'+j.location+'","'+j.industry+'","'+j.days+' days","'+j.hours+'","'+j.salary+'","'+j.fat.join('+')+'","'+j.status+'","'+j.created+'"\n');}
-  else{csv='SL,Name,Position,Nationality,Location,Marital,Visa,Notice,Exp (yrs),Curr PKG,Exp PKG,Stage,CV\n';list.forEach(c=>csv+=c.sl+',"'+c.name+'","'+(c.position||'')+'","'+(c.nationality||'')+'","'+(c.location||'')+'","'+(c.marital||'')+'","'+(c.visa||'')+'","'+(c.notice||'')+'","'+(c.exp||'')+'","'+(c.cpkg||'')+'","'+(c.epkg||'')+'","'+c.stage+'","'+(c.cvName||'')+'"\n');}
+  else{csv='SL,Name,Position,Nationality,Location,Age,Marital,Visa,Notice,Exp (yrs),Curr PKG,Exp PKG,Stage,CV\n';list.forEach(c=>csv+=c.sl+',"'+c.name+'","'+(c.position||'')+'","'+(c.nationality||'')+'","'+(c.location||'')+'","'+(c.age||'')+'","'+(c.marital||'')+'","'+(c.visa||'')+'","'+(c.notice||'')+'","'+(c.exp||'')+'","'+(c.cpkg||'')+'","'+(c.epkg||'')+'","'+c.stage+'","'+(c.cvName||'')+'"\n');}
   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='hyrz_'+type+'_'+new Date().toISOString().split('T')[0]+'.csv';a.click();
   showToast('✓ Exported successfully');
 }
@@ -1782,12 +1933,12 @@ const AI_KNOWLEDGE = {
     },
     "client|add client|company": {
       title: "Managing Clients",
-      answer: "To manage clients:\n<ul><li>1️⃣ Click <strong>Clients</strong> in the sidebar</li><li>2️⃣ Click <strong>+ Add Client</strong></li><li>3️⃣ Enter: Company name, Industry, Contact person, Email, Phone, Location</li><li>4️⃣ Click <strong>Add Client</strong></li></ul>\nClients show in a table with their status (Active/Pending).\n\n3 sample clients are pre-loaded: Gulf Hospitality Group, Qatar Construction Co, and Al Meera Retail.",
+      answer: "To manage clients:\n<ul><li>1️⃣ Click <strong>Clients</strong> in the sidebar</li><li>2️⃣ Click <strong>+ Add Client</strong></li><li>3️⃣ Enter: Company name, Industry, Contact person, Email, Phone, Location</li><li>4️⃣ Click <strong>Add Client</strong></li></ul>\nClients show in a table with their status (Active/Pending).\n\nAdd your first client by clicking + Add Client on the Clients page.",
       chips: ["How do I create a job?", "How do I view reports?"]
     },
     "account|sign up|login|sign in|register|create account": {
       title: "Account & Sign In",
-      answer: "HyrZ supports multiple accounts:\n\n<strong>Sign In:</strong>\n<ul><li>Enter your email and password</li><li>Tick <strong>Remember me</strong> to stay logged in</li><li>Use demo accounts to try instantly</li></ul>\n<strong>Create Account:</strong>\n<ul><li>Click <strong>Create Account</strong> tab</li><li>Choose your role: Recruiter, Admin, HR, or Hiring Manager</li><li>Fill in your name, company, email and password</li><li>Accounts are saved in your browser</li></ul>\n\n🔑 <strong>Demo accounts:</strong>\n• Admin: <code>admin@hyrz.qa</code> / <code>Admin@123</code>\n• Recruiter: <code>recruiter@hyrz.qa</code> / <code>Rec@123</code>",
+      answer: "HyrZ supports multiple accounts:\n\n<strong>Sign In:</strong>\n<ul><li>Enter your email and password</li><li>Tick <strong>Remember me</strong> to stay logged in</li><li>Use demo accounts to try instantly</li></ul>\n<strong>Create Account:</strong>\n<ul><li>Click <strong>Create Account</strong> tab</li><li>Choose your role: Recruiter, Admin, HR, or Hiring Manager</li><li>Fill in your name, company, email and password</li><li>Accounts are saved in your browser</li></ul>\n\n🔑 Create a new account using the <strong>Create Account</strong> tab to get started!",
       chips: ["How do I update my profile?", "How do I sign out?"]
     },
     "profile|update profile|my profile|settings|password": {
@@ -1971,6 +2122,7 @@ function openEditCandidate(id) {
   document.getElementById('ec-visa').value     = c.visa || '';
   document.getElementById('ec-notice').value   = c.notice || '';
   document.getElementById('ec-exp').value      = c.exp || '';
+  document.getElementById('ec-age').value      = c.age || '';
   document.getElementById('ec-cpkg').value     = c.cpkg || '';
   document.getElementById('ec-epkg').value     = c.epkg || '';
   document.getElementById('ec-stage').value    = c.stage || 'applied';
@@ -2037,6 +2189,7 @@ function saveEditCandidate() {
     visa:        document.getElementById('ec-visa').value,
     notice:      document.getElementById('ec-notice').value,
     exp:         document.getElementById('ec-exp').value,
+    age:         document.getElementById('ec-age').value,
     cpkg:        document.getElementById('ec-cpkg').value,
     epkg:        document.getElementById('ec-epkg').value,
     stage:       document.getElementById('ec-stage').value,
@@ -2170,6 +2323,26 @@ function saveEditClient() {
   showToast('✓ Client updated successfully');
 }
 
+
+// ══════════════════════════════════════════
+// MOBILE SIDEBAR
+// ══════════════════════════════════════════
+function toggleSidebar() {
+  document.querySelector('.sidebar').classList.toggle('open');
+  document.getElementById('sidebar-overlay').classList.toggle('open');
+}
+function closeSidebar() {
+  document.querySelector('.sidebar').classList.remove('open');
+  document.getElementById('sidebar-overlay').classList.remove('open');
+}
+
+// Close sidebar on nav item click (mobile)
+document.querySelectorAll('.nav-item').forEach(item => {
+  item.addEventListener('click', () => {
+    if(window.innerWidth <= 768) closeSidebar();
+  });
+});
+
 </script>
 <!-- ===== FEEDBACK ===== -->
 <style>
@@ -2197,6 +2370,178 @@ function saveEditClient() {
 .feedback-thanks-icon{font-size:48px;margin-bottom:12px;}
 .feedback-thanks h4{font-size:16px;font-weight:700;margin-bottom:6px;}
 .feedback-thanks p{font-size:13px;color:var(--muted2);}
+
+/* ══════════════════════════════════════════════
+   MOBILE RESPONSIVE
+══════════════════════════════════════════════ */
+
+/* Hamburger button */
+#hamburger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 8px;
+  color: var(--text);
+  font-size: 22px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+/* Sidebar overlay for mobile */
+#sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  z-index: 99;
+}
+
+@media (max-width: 768px) {
+  /* Show hamburger */
+  #hamburger { display: flex; align-items: center; }
+
+  /* Sidebar slides in/out */
+  .sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    z-index: 200;
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  #sidebar-overlay.open { display: block; }
+
+  /* Main takes full width */
+  .main { margin-left: 0 !important; }
+
+  /* Topbar */
+  .topbar { padding: 0 12px; gap: 8px; }
+  .search-box { display: none; }
+  .page-title { font-size: 13px; }
+  .theme-toggle .toggle-track,
+  .theme-toggle #theme-label { display: none; }
+  .theme-toggle { padding: 5px 8px; gap: 0; }
+
+  /* Content padding */
+  .content { padding: 14px; padding-bottom: 88px; }
+
+  /* Stats grid → 2 cols */
+  .stats-grid { grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+  .stat-value { font-size: 22px; }
+
+  /* Grid2 → single col */
+  .grid2 { grid-template-columns: 1fr; gap: 12px; }
+
+  /* Hours summary → 2 cols */
+  .hours-summary-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+
+  /* Tables: scroll horizontally */
+  .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  table { min-width: 600px; }
+  td, th { padding: 8px 10px; font-size: 11px; }
+
+  /* Action rows */
+  .action-row { flex-direction: column; align-items: stretch; gap: 10px; }
+  .action-row > div { width: 100%; }
+  .action-row .filter-row { flex-direction: column; }
+  .action-row .filter-row input,
+  .action-row .filter-row select { width: 100% !important; }
+  .action-row > div:last-child { display: flex; gap: 8px; }
+  .action-row > div:last-child .btn { flex: 1; justify-content: center; }
+
+  /* Modal */
+  .modal { padding: 18px; border-radius: 12px; max-height: 95vh; }
+  .mform-grid { grid-template-columns: 1fr; }
+  .mform-group.full { grid-column: 1; }
+  .form-grid { grid-template-columns: 1fr; }
+
+  /* Pipeline columns */
+  .pipeline { flex-direction: column; }
+  .pipeline-col { min-width: unset; }
+
+  /* Auth screen */
+  #auth-screen { flex-direction: column; }
+  .auth-left { display: none; }
+  .auth-right {
+    width: 100%;
+    min-width: unset;
+    padding: 32px 20px;
+    min-height: 100vh;
+  }
+
+  /* Profile grid */
+  .profile-grid { grid-template-columns: 1fr; }
+
+  /* Check-in hero */
+  .checkin-hero { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .checkin-clock { font-size: 36px; }
+  .checkin-btn-group { width: 100%; }
+  .btn-checkin, .btn-checkout { flex: 1; justify-content: center; text-align: center; }
+
+  /* Bool search */
+  .bool-input-row { flex-direction: column; }
+  .bool-main-input { min-width: unset; width: 100%; }
+  .bool-input-row > div:last-child { width: 100%; display: flex; gap: 8px; }
+  .bool-input-row > div:last-child .btn { flex: 1; justify-content: center; }
+
+  /* Search mode tabs */
+  .search-mode-tabs { width: 100%; }
+  .search-tab { flex: 1; }
+
+  /* User pill – hide name/role */
+  .user-pill-name, .user-pill-role { display: none; }
+  .user-pill { padding: 4px; }
+
+  /* LinkedIn banner */
+  .linkedin-banner {
+    left: 0 !important;
+    padding: 10px 14px;
+    gap: 10px;
+  }
+  .linkedin-banner .li-msg { display: none; }
+  .linkedin-banner-left { gap: 8px; }
+
+  /* AI panel */
+  #ai-panel {
+    right: 8px;
+    left: 8px;
+    width: auto;
+    bottom: 80px;
+  }
+  #ai-fab { right: 16px; bottom: 70px; }
+
+  /* Sidebar linkedin card */
+  .sidebar-linkedin { margin: 8px; }
+
+  /* Cards */
+  .card { padding: 14px; }
+  .card-header { flex-wrap: wrap; gap: 8px; }
+
+  /* Bool results bar */
+  .bool-results-bar { flex-wrap: wrap; gap: 6px; }
+
+  /* fat options */
+  .fat-options { gap: 6px; }
+  .fat-option { font-size: 11px; padding: 6px 10px; }
+
+  /* Checkin log table */
+  .checkin-log-card table { min-width: 500px; }
+}
+
+@media (max-width: 480px) {
+  .stats-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .stat-value { font-size: 20px; }
+  .stat-label { font-size: 10px; }
+  .hours-summary-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .hc-value { font-size: 18px; }
+  .page-title { font-size: 12px; }
+  .topbar { height: 50px; }
+  .auth-right { padding: 24px 16px; }
+  .auth-form-title { font-size: 20px; }
+  .user-type-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+}
+
 </style>
 
 <button id="feedback-fab" onclick="openFeedback()" title="Rate HyrZ">⭐</button>
