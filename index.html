@@ -988,7 +988,7 @@ tr:last-child td{border-bottom:none;}tr:hover td{background:rgba(255,255,255,0.0
               </div>
               <div style="display:flex;gap:8px">
                 <button class="btn btn-ghost" onclick="exportCSV('candidates')"><i class="ti ti-table-export"></i> Export</button>
-                <button class="btn btn-primary" onclick="openModal('cand-modal')"><i class="ti ti-plus"></i> Add Candidate</button>
+                <button class="btn btn-primary" onclick="openAddCandidateModal()"><i class="ti ti-plus"></i> Add Candidate</button>
               </div>
             </div>
           </div>
@@ -1021,7 +1021,7 @@ tr:last-child td{border-bottom:none;}tr:hover td{background:rgba(255,255,255,0.0
             </div>
             <div style="display:flex;gap:8px;margin-bottom:12px;justify-content:flex-end">
               <button class="btn btn-ghost" onclick="exportCSV('candidates')"><i class="ti ti-table-export"></i> Export Results</button>
-              <button class="btn btn-primary" onclick="openModal('cand-modal')"><i class="ti ti-plus"></i> Add Candidate</button>
+              <button class="btn btn-primary" onclick="openAddCandidateModal()"><i class="ti ti-plus"></i> Add Candidate</button>
             </div>
           </div>
           <div class="card" style="padding:0;overflow:hidden"><div class="table-wrap"><table>
@@ -1037,8 +1037,8 @@ tr:last-child td{border-bottom:none;}tr:hover td{background:rgba(255,255,255,0.0
             <div style="display:flex;gap:8px"><button class="btn btn-ghost" onclick="exportCSV('jobs')"><i class="ti ti-table-export"></i> Export</button><button class="btn btn-primary" onclick="populateClientDropdown();openModal('job-modal')"><i class="ti ti-plus"></i> Create Job</button></div>
           </div>
           <div class="card" style="padding:0;overflow:hidden"><div class="table-wrap"><table>
-            <thead><tr><th>#</th><th>Position</th><th>Client</th><th>Location</th><th>Industry</th><th>Days</th><th>Hours</th><th>Budget (QAR)</th><th>FAT</th><th>Status</th><th></th></tr></thead>
-            <tbody id="jobs-tbody"><tr><td colspan="11" class="empty-state">No jobs yet.</td></tr></tbody>
+            <thead><tr><th>#</th><th>Position</th><th>Client</th><th>Location</th><th>Industry</th><th>Days</th><th>Hours</th><th>Budget (QAR)</th><th>FAT</th><th>Status</th><th>Candidates</th><th></th></tr></thead>
+            <tbody id="jobs-tbody"><tr><td colspan="12" class="empty-state">No jobs yet.</td></tr></tbody>
           </table></div></div>
         </div>
 
@@ -1135,9 +1135,10 @@ tr:last-child td{border-bottom:none;}tr:hover td{background:rgba(255,255,255,0.0
 <!-- CANDIDATE MODAL -->
 <div class="modal-overlay" id="cand-modal">
   <div class="modal">
-    <div class="modal-title">Add New Candidate <button class="modal-close" onclick="closeModal('cand-modal')">&#10005;</button></div>
+    <div class="modal-title">Add New Candidate <button class="modal-close" onclick="closeCandModal()">&#10005;</button></div>
     <div class="mform-grid">
       <div class="mform-group"><label>Full Name *</label><input id="c-name" placeholder="Full name"></div>
+      <div class="mform-group full"><label>Linked Job</label><select id="c-job" onchange="onCandidateJobChange(this,'c-position')"><option value="">No Specific Job (General Application)</option></select></div>
       <div class="mform-group"><label>Position Applied For</label><input id="c-position" placeholder="e.g. HR Executive"></div>
       <div class="mform-group"><label>Nationality</label><select id="c-nationality"><option value="">Select</option><option>Indian</option><option>Nepali</option><option>Filipino</option><option>Pakistani</option><option>Sri Lankan</option><option>Bangladeshi</option><option>Qatari</option><option>Egyptian</option><option>Jordanian</option><option>Lebanese</option><option>Syrian</option><option>Other</option></select></div>
       <div class="mform-group"><label>Current Location</label><input id="c-location" placeholder="City, Country"></div>
@@ -1160,7 +1161,7 @@ tr:last-child td{border-bottom:none;}tr:hover td{background:rgba(255,255,255,0.0
         <div id="cv-uploaded-info" style="display:none"></div>
       </div>
     </div>
-    <div class="modal-footer"><button class="btn btn-ghost" onclick="closeModal('cand-modal')">Cancel</button><button class="btn btn-primary" onclick="saveCandidate()"><i class="ti ti-check"></i> Save Candidate</button></div>
+    <div class="modal-footer"><button class="btn btn-ghost" onclick="closeCandModal()">Cancel</button><button class="btn btn-primary" onclick="saveCandidate()"><i class="ti ti-check"></i> Save Candidate</button></div>
   </div>
 </div>
 
@@ -1218,9 +1219,10 @@ tr:last-child td{border-bottom:none;}tr:hover td{background:rgba(255,255,255,0.0
 <!-- EDIT CANDIDATE MODAL -->
 <div class="modal-overlay" id="edit-cand-modal">
   <div class="modal">
-    <div class="modal-title">Edit Candidate <button class="modal-close" onclick="closeModal('edit-cand-modal')">&#10005;</button></div>
+    <div class="modal-title">Edit Candidate <button class="modal-close" onclick="closeEditCandModal()">&#10005;</button></div>
     <div class="mform-grid">
       <div class="mform-group"><label>Full Name *</label><input id="ec-name" placeholder="Full name"></div>
+      <div class="mform-group full"><label>Linked Job</label><select id="ec-job" onchange="onCandidateJobChange(this,'ec-position')"><option value="">No Specific Job (General Application)</option></select></div>
       <div class="mform-group"><label>Position Applied For</label><input id="ec-position" placeholder="e.g. HR Executive"></div>
       <div class="mform-group"><label>Nationality</label>
         <select id="ec-nationality"><option value="">Select</option><option>Indian</option><option>Nepali</option><option>Filipino</option><option>Pakistani</option><option>Sri Lankan</option><option>Bangladeshi</option><option>Qatari</option><option>Egyptian</option><option>Jordanian</option><option>Lebanese</option><option>Syrian</option><option>Other</option></select>
@@ -1255,7 +1257,7 @@ tr:last-child td{border-bottom:none;}tr:hover td{background:rgba(255,255,255,0.0
       </div>
     </div>
     <div class="modal-footer">
-      <button class="btn btn-ghost" onclick="closeModal('edit-cand-modal')">Cancel</button>
+      <button class="btn btn-ghost" onclick="closeEditCandModal()">Cancel</button>
       <button class="btn btn-primary" onclick="saveEditCandidate()"><i class="ti ti-check"></i> Save Changes</button>
     </div>
   </div>
@@ -1328,6 +1330,26 @@ tr:last-child td{border-bottom:none;}tr:hover td{background:rgba(255,255,255,0.0
       <button class="modal-close" onclick="closeModal('client-jobs-modal')">&#10005;</button>
     </div>
     <div id="cjm-body"></div>
+  </div>
+</div>
+
+<!-- JOB CANDIDATES MODAL -->
+<div class="modal-overlay" id="job-cands-modal">
+  <div class="modal" style="max-width:900px">
+    <div class="modal-title">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="width:34px;height:34px;border-radius:8px;background:rgba(52,211,153,0.12);display:flex;align-items:center;justify-content:center"><i class="ti ti-briefcase" style="color:var(--success);font-size:18px"></i></div>
+        <div>
+          <div id="jcm-job-title" style="font-size:16px;font-weight:700;color:var(--text)"></div>
+          <div id="jcm-job-sub" style="font-size:11px;color:var(--muted2);font-weight:400;margin-top:1px"></div>
+        </div>
+      </div>
+      <button class="modal-close" onclick="closeModal('job-cands-modal')">&#10005;</button>
+    </div>
+    <div style="display:flex;justify-content:flex-end;margin-bottom:14px">
+      <button class="btn btn-primary btn-sm" onclick="openAddCandidateModal(currentViewedJobId)"><i class="ti ti-plus"></i> Add Candidate to this Job</button>
+    </div>
+    <div id="jcm-body"></div>
   </div>
 </div>
 
@@ -1712,6 +1734,7 @@ function highlightText(text,query){
 let jobs=[],candidates=[],cvFiles={},cvTexts={};
 let clients=[];
 let selectedFAT=[],pendingCVFile=null,pendingCVText='';
+let currentViewedJobId=null,returnToJobModalAfterAction=null;
 
 // ======== PERSISTENCE ========
 function saveData() {
@@ -1750,12 +1773,13 @@ function saveCandidate(){
   const name=document.getElementById('c-name').value.trim();
   if(!name){showToast('Please enter candidate name.','var(--danger)');return;}
   const id=Date.now();
-  candidates.push({id,sl:candidates.length+1,name,position:document.getElementById('c-position').value,nationality:document.getElementById('c-nationality').value,location:document.getElementById('c-location').value,marital:document.getElementById('c-marital').value,visa:document.getElementById('c-visa').value,notice:document.getElementById('c-notice').value,exp:document.getElementById('c-exp').value,cpkg:document.getElementById('c-cpkg').value,epkg:document.getElementById('c-epkg').value,age:document.getElementById('c-age').value,
+  const jobId=document.getElementById('c-job').value||null;
+  candidates.push({id,sl:candidates.length+1,name,jobId,position:document.getElementById('c-position').value,nationality:document.getElementById('c-nationality').value,location:document.getElementById('c-location').value,marital:document.getElementById('c-marital').value,visa:document.getElementById('c-visa').value,notice:document.getElementById('c-notice').value,exp:document.getElementById('c-exp').value,cpkg:document.getElementById('c-cpkg').value,epkg:document.getElementById('c-epkg').value,age:document.getElementById('c-age').value,
     stage:document.getElementById('c-stage').value,created:new Date().toLocaleDateString(),cvName:pendingCVFile?pendingCVFile.name:null});
   if(pendingCVFile){cvFiles[id]=pendingCVFile;cvTexts[id]=pendingCVText||'';}
-  closeModal('cand-modal');
+  closeCandModal();
   ['c-name','c-position','c-location','c-exp','c-age','c-cpkg','c-epkg'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
-  ['c-nationality','c-marital','c-visa','c-notice'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  ['c-nationality','c-marital','c-visa','c-notice','c-job'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
   document.getElementById('c-stage').value='applied';removePendingCV();
   document.getElementById('cand-badge').textContent=candidates.length;
   renderCandidates(candidates);renderPipeline();updateDashboard();
@@ -1776,7 +1800,7 @@ function renderCandidates(list,boolQuery){
     return`<tr class="${boolQuery&&cvMatchedInText?'row-match':''}">
       <td style="color:var(--muted);font-weight:600">${c.sl}</td>
       <td><div style="display:flex;align-items:center;gap:8px"><div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#000;flex-shrink:0">${initials}</div><b>${boolQuery?highlightText(c.name,boolQuery):c.name}</b></div></td>
-      <td>${boolQuery?highlightText(c.position||'-',boolQuery):(c.position||'-')}</td>
+      <td>${boolQuery?highlightText(c.position||'-',boolQuery):(c.position||'-')}${c.jobId?`<div onclick="viewJobCandidates('${c.jobId}')" style="font-size:10px;color:var(--accent);margin-top:2px;display:flex;align-items:center;gap:3px;cursor:pointer" title="View linked job"><i class="ti ti-briefcase"></i>${getJobTitle(c.jobId)||'Linked job'}</div>`:''}</td>
       <td>${c.nationality||'-'}</td><td>${c.location||'-'}</td>
       <td><span class="badge badge-blue" style="font-size:9px">${c.visa||'-'}</span></td>
       <td>${c.notice||'-'}</td><td>${c.age||'-'}</td><td>${c.exp?c.exp+'y':'-'}</td>
@@ -1806,8 +1830,9 @@ function changeCandStage(id, stage) {
   if(!c) return;
   c.stage = stage;
   renderPipeline(); updateDashboard(); saveData();
+  refreshJobCandidatesModalIfOpen();
 }
-function deleteCandidate(id){candidates=candidates.filter(c=>c.id!==id);candidates.forEach((c,i)=>c.sl=i+1);delete cvFiles[id];delete cvTexts[id];document.getElementById('cand-badge').textContent=candidates.length;renderCandidates(candidates);renderPipeline();updateDashboard();saveData();}
+function deleteCandidate(id){candidates=candidates.filter(c=>c.id!==id);candidates.forEach((c,i)=>c.sl=i+1);delete cvFiles[id];delete cvTexts[id];document.getElementById('cand-badge').textContent=candidates.length;renderCandidates(candidates);renderPipeline();updateDashboard();saveData();refreshJobCandidatesModalIfOpen();}
 
 function saveJob(){
   const pos=document.getElementById('j-position').value.trim();
@@ -1826,10 +1851,14 @@ function renderJobs(search,statusFilter){
   search=search||'';statusFilter=statusFilter||'';
   const tbody=document.getElementById('jobs-tbody');
   const f=jobs.filter(j=>(j.position+j.location+j.industry).toLowerCase().includes(search.toLowerCase())&&(!statusFilter||j.status===statusFilter));
-  if(!f.length){tbody.innerHTML='<tr><td colspan="11" class="empty-state">No jobs found.</td></tr>';return;}
-  tbody.innerHTML=f.map((j,i)=>`<tr><td style="color:var(--muted)">${i+1}</td><td><b>${j.position}</b>${j.client?`<div style="font-size:10px;color:var(--accent);margin-top:2px;display:flex;align-items:center;gap:3px"><i class="ti ti-building"></i>${j.client}</div>`:''}</td><td>${j.client?`<span onclick="viewClientJobs('${j.client.replace(/'/g,"\\'")}\')" style="font-size:11px;font-weight:600;color:var(--accent);cursor:pointer;display:inline-flex;align-items:center;gap:4px;padding:2px 8px;background:rgba(56,189,248,0.08);border:1px solid rgba(56,189,248,0.2);border-radius:6px;transition:all 0.15s" onmouseover="this.style.background='rgba(56,189,248,0.18)'" onmouseout="this.style.background='rgba(56,189,248,0.08)'" title="Click to view all positions for this client"><i class="ti ti-building" style="font-size:10px"></i>${j.client}</span>`:'<span style="color:var(--muted)">-</span>'}</td><td>${j.location||'-'}</td><td>${j.industry||'-'}</td><td>${j.days?j.days+' days':'-'}</td><td>${j.hours?j.hours+'h':'-'}</td><td>${j.salary?'QAR '+Number(j.salary).toLocaleString():'-'}</td><td>${j.fat&&j.fat.length?j.fat.map(f=>'<span class="tag">'+f+'</span>').join(''):'<span style="color:var(--muted)">-</span>'}</td><td><span class="badge ${j.status==='Active'?'badge-green':j.status==='Pending'?'badge-yellow':'badge-red'}">${j.status}</span></td><td style="display:flex;gap:4px"><button class="btn btn-edit btn-sm" onclick="openEditJob(${j.id})"><i class="ti ti-edit"></i></button><button class="btn btn-danger btn-sm" onclick="deleteJob(${j.id})"><i class="ti ti-trash"></i></button></td></tr>`).join('');
+  if(!f.length){tbody.innerHTML='<tr><td colspan="12" class="empty-state">No jobs found.</td></tr>';return;}
+  tbody.innerHTML=f.map((j,i)=>{
+    const candCount=candidates.filter(c=>String(c.jobId)===String(j.id)).length;
+    const candCell=`<span onclick="viewJobCandidates('${j.id}')" style="font-size:11px;font-weight:600;color:${candCount?'var(--success)':'var(--muted2)'};cursor:pointer;display:inline-flex;align-items:center;gap:4px;padding:2px 8px;background:${candCount?'rgba(52,211,153,0.08)':'rgba(255,255,255,0.04)'};border:1px solid ${candCount?'rgba(52,211,153,0.2)':'var(--border)'};border-radius:6px;transition:all 0.15s" title="Click to view candidates for this job"><i class="ti ti-users" style="font-size:10px"></i>${candCount}</span>`;
+    return `<tr><td style="color:var(--muted)">${i+1}</td><td><b>${j.position}</b>${j.client?`<div style="font-size:10px;color:var(--accent);margin-top:2px;display:flex;align-items:center;gap:3px"><i class="ti ti-building"></i>${j.client}</div>`:''}</td><td>${j.client?`<span onclick="viewClientJobs('${j.client.replace(/'/g,"\\'")}\')" style="font-size:11px;font-weight:600;color:var(--accent);cursor:pointer;display:inline-flex;align-items:center;gap:4px;padding:2px 8px;background:rgba(56,189,248,0.08);border:1px solid rgba(56,189,248,0.2);border-radius:6px;transition:all 0.15s" onmouseover="this.style.background='rgba(56,189,248,0.18)'" onmouseout="this.style.background='rgba(56,189,248,0.08)'" title="Click to view all positions for this client"><i class="ti ti-building" style="font-size:10px"></i>${j.client}</span>`:'<span style="color:var(--muted)">-</span>'}</td><td>${j.location||'-'}</td><td>${j.industry||'-'}</td><td>${j.days?j.days+' days':'-'}</td><td>${j.hours?j.hours+'h':'-'}</td><td>${j.salary?'QAR '+Number(j.salary).toLocaleString():'-'}</td><td>${j.fat&&j.fat.length?j.fat.map(f=>'<span class="tag">'+f+'</span>').join(''):'<span style="color:var(--muted)">-</span>'}</td><td><span class="badge ${j.status==='Active'?'badge-green':j.status==='Pending'?'badge-yellow':'badge-red'}">${j.status}</span></td><td>${candCell}</td><td style="display:flex;gap:4px"><button class="btn btn-edit btn-sm" onclick="openAddCandidateModal('${j.id}')" title="Add Candidate"><i class="ti ti-user-plus"></i></button><button class="btn btn-edit btn-sm" onclick="openEditJob(${j.id})" title="Edit Job"><i class="ti ti-edit"></i></button><button class="btn btn-danger btn-sm" onclick="deleteJob(${j.id})" title="Delete Job"><i class="ti ti-trash"></i></button></td></tr>`;
+  }).join('');
 }
-function deleteJob(id){jobs=jobs.filter(j=>j.id!==id);document.getElementById('jobs-badge').textContent=jobs.length;renderJobs();updateDashboard();saveData();showToast('✓ Job deleted');}
+function deleteJob(id){jobs=jobs.filter(j=>j.id!==id);if(String(currentViewedJobId)===String(id))closeModal('job-cands-modal');document.getElementById('jobs-badge').textContent=jobs.length;renderJobs();updateDashboard();saveData();showToast('✓ Job deleted');}
 
 function viewClientJobs(clientName) {
   const clientJobs = jobs.filter(j => j.client === clientName);
@@ -1888,6 +1917,125 @@ function viewClientJobs(clientName) {
   openModal('client-jobs-modal');
 }
 
+// ============================================================
+// JOB ↔ CANDIDATE LINKING
+// ============================================================
+function getJobTitle(jobId){
+  if(!jobId) return '';
+  const j=jobs.find(x=>String(x.id)===String(jobId));
+  return j?j.position:'';
+}
+
+function populateJobDropdownForCandidate(selectId, presetJobId){
+  const sel=document.getElementById(selectId);
+  if(!sel) return;
+  presetJobId=presetJobId?String(presetJobId):'';
+  sel.innerHTML='<option value="">No Specific Job (General Application)</option>'+
+    jobs.map(j=>`<option value="${j.id}"${String(j.id)===presetJobId?' selected':''}>${j.position}${j.client?' — '+j.client:''}</option>`).join('');
+  if(presetJobId) sel.value=presetJobId;
+}
+
+function onCandidateJobChange(selectEl, positionFieldId){
+  const jobId=selectEl.value;
+  const posField=document.getElementById(positionFieldId);
+  if(!posField) return;
+  if(jobId){
+    const job=jobs.find(j=>String(j.id)===jobId);
+    if(job) posField.value=job.position;
+  }
+}
+
+// Opens the Add Candidate modal, optionally pre-linked to a job. If called while
+// the Job Candidates modal is open, that modal is closed and reopened afterwards
+// so the user returns to the same drill-down view.
+function openAddCandidateModal(jobId){
+  const jobModalOpen=document.getElementById('job-cands-modal').classList.contains('open');
+  if(jobModalOpen) closeModal('job-cands-modal');
+  returnToJobModalAfterAction=jobId?jobId:(jobModalOpen?currentViewedJobId:null);
+  populateJobDropdownForCandidate('c-job', jobId||'');
+  openModal('cand-modal');
+}
+function closeCandModal(){
+  closeModal('cand-modal');
+  maybeReturnToJobModal();
+}
+function closeEditCandModal(){
+  closeModal('edit-cand-modal');
+  maybeReturnToJobModal();
+}
+function maybeReturnToJobModal(){
+  if(returnToJobModalAfterAction){
+    const jid=returnToJobModalAfterAction;
+    returnToJobModalAfterAction=null;
+    viewJobCandidates(jid);
+  }
+}
+// Wraps openEditCandidate so editing from inside the Job Candidates modal
+// closes it first (avoiding overlapping modals) and returns to it afterward.
+function editCandidateFromJobModal(id){
+  closeModal('job-cands-modal');
+  returnToJobModalAfterAction=currentViewedJobId;
+  openEditCandidate(id);
+}
+function refreshJobCandidatesModalIfOpen(){
+  const m=document.getElementById('job-cands-modal');
+  if(m&&m.classList.contains('open')&&currentViewedJobId) viewJobCandidates(currentViewedJobId);
+}
+
+function viewJobCandidates(jobId){
+  const job=jobs.find(j=>String(j.id)===String(jobId));
+  if(!job) return;
+  currentViewedJobId=job.id;
+  const jobCands=candidates.filter(c=>String(c.jobId)===String(job.id));
+
+  document.getElementById('jcm-job-title').textContent=job.position;
+  document.getElementById('jcm-job-sub').textContent=
+    (job.client?job.client+' · ':'')+(job.location||'')+' — '+jobCands.length+' candidate'+(jobCands.length!==1?'s':'');
+
+  if(!jobCands.length){
+    document.getElementById('jcm-body').innerHTML=
+      '<div class="empty-state" style="padding:40px 20px"><i class="ti ti-users" style="font-size:36px;display:block;margin-bottom:10px;color:var(--muted)"></i>No candidates linked to this job yet.<br><span style="font-size:11px">Click "Add Candidate to this Job" above to get started.</span></div>';
+  }else{
+    const stages=['applied','shortlisted','interview','offered','placed'];
+    const stageLabels={applied:'Applied',shortlisted:'Shortlisted',interview:'Interview',offered:'Offered',placed:'Placed'};
+    const stageColors={applied:'rgba(56,189,248,0.1)',shortlisted:'rgba(251,191,36,0.1)',interview:'rgba(129,140,248,0.1)',offered:'rgba(251,113,133,0.1)',placed:'rgba(52,211,153,0.1)'};
+    const stageTextColors={applied:'var(--accent)',shortlisted:'var(--warning)',interview:'var(--accent2)',offered:'#FB7185',placed:'var(--success)'};
+
+    const summaryHtml='<div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap">'+
+      stages.map(s=>{
+        const cnt=jobCands.filter(c=>c.stage===s).length;
+        return `<div style="padding:8px 16px;border-radius:8px;background:${stageColors[s]};border:1px solid ${stageColors[s].replace('0.1','0.25')};font-size:12px;font-weight:600;color:${stageTextColors[s]}">${cnt} ${stageLabels[s]}</div>`;
+      }).join('')+'</div>';
+
+    const rowsHtml=jobCands.map((c,i)=>{
+      const initials=c.name.split(' ').map(n=>n[0]).join('').substring(0,2).toUpperCase();
+      return `<tr>
+        <td style="color:var(--muted)">${i+1}</td>
+        <td><div style="display:flex;align-items:center;gap:8px"><div style="width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#000;flex-shrink:0">${initials}</div><b style="font-size:12px">${c.name}</b></div></td>
+        <td>${c.nationality||'<span style="color:var(--muted)">-</span>'}</td>
+        <td><span class="badge badge-blue" style="font-size:9px">${c.visa||'-'}</span></td>
+        <td>${c.notice||'<span style="color:var(--muted)">-</span>'}</td>
+        <td>${c.exp?c.exp+'y':'<span style="color:var(--muted)">-</span>'}</td>
+        <td><select class="btn btn-ghost btn-sm" style="padding:3px 6px;font-size:10px;width:auto" onchange="changeCandStage(${c.id},this.value)">
+          <option value="applied"${c.stage==='applied'?' selected':''}>Applied</option>
+          <option value="shortlisted"${c.stage==='shortlisted'?' selected':''}>Shortlisted</option>
+          <option value="interview"${c.stage==='interview'?' selected':''}>Interview</option>
+          <option value="offered"${c.stage==='offered'?' selected':''}>Offered</option>
+          <option value="placed"${c.stage==='placed'?' selected':''}>Placed</option>
+        </select></td>
+        <td style="display:flex;gap:4px"><button class="btn btn-edit btn-sm" onclick="editCandidateFromJobModal(${c.id})" title="Edit"><i class="ti ti-edit"></i></button><button class="btn btn-danger btn-sm" onclick="deleteCandidate(${c.id})" title="Delete"><i class="ti ti-trash"></i></button></td>
+      </tr>`;
+    }).join('');
+
+    document.getElementById('jcm-body').innerHTML=summaryHtml+
+      `<div class="table-wrap"><table>
+        <thead><tr><th>#</th><th>Name</th><th>Nationality</th><th>Visa</th><th>Notice</th><th>Exp</th><th>Stage</th><th></th></tr></thead>
+        <tbody>${rowsHtml}</tbody>
+      </table></div>`;
+  }
+  openModal('job-cands-modal');
+}
+
 function renderPipeline(){
   ['applied','shortlisted','interview','offered','placed'].forEach(stage=>{
     const cont=document.getElementById('cards-'+stage);const sc=candidates.filter(c=>c.stage===stage);
@@ -1929,8 +2077,8 @@ function updateReports(){
 function exportCSV(type){
   const list=lastBoolResults&&currentSearchMode==='bool'?lastBoolResults:candidates;
   let csv='';
-  if(type==='jobs'){csv='SL,Position,Client,Location,Industry,Working Days,Hours,Salary (QAR),FAT,Status,Created\n';jobs.forEach((j,i)=>csv+=i+1+',"'+j.position+'","'+(j.client||'')+'","'+j.location+'","'+j.industry+'","'+j.days+' days","'+j.hours+'","'+j.salary+'","'+j.fat.join('+')+'","'+j.status+'","'+j.created+'"\n');}
-  else{csv='SL,Name,Position,Nationality,Location,Age,Marital,Visa,Notice,Exp (yrs),Curr PKG,Exp PKG,Stage,CV\n';list.forEach(c=>csv+=c.sl+',"'+c.name+'","'+(c.position||'')+'","'+(c.nationality||'')+'","'+(c.location||'')+'","'+(c.age||'')+'","'+(c.marital||'')+'","'+(c.visa||'')+'","'+(c.notice||'')+'","'+(c.exp||'')+'","'+(c.cpkg||'')+'","'+(c.epkg||'')+'","'+c.stage+'","'+(c.cvName||'')+'"\n');}
+  if(type==='jobs'){csv='SL,Position,Client,Location,Industry,Working Days,Hours,Salary (QAR),FAT,Status,Candidates,Created\n';jobs.forEach((j,i)=>csv+=i+1+',"'+j.position+'","'+(j.client||'')+'","'+j.location+'","'+j.industry+'","'+j.days+' days","'+j.hours+'","'+j.salary+'","'+j.fat.join('+')+'","'+j.status+'","'+candidates.filter(c=>String(c.jobId)===String(j.id)).length+'","'+j.created+'"\n');}
+  else{csv='SL,Name,Linked Job,Position,Nationality,Location,Age,Marital,Visa,Notice,Exp (yrs),Curr PKG,Exp PKG,Stage,CV\n';list.forEach(c=>csv+=c.sl+',"'+c.name+'","'+getJobTitle(c.jobId)+'","'+(c.position||'')+'","'+(c.nationality||'')+'","'+(c.location||'')+'","'+(c.age||'')+'","'+(c.marital||'')+'","'+(c.visa||'')+'","'+(c.notice||'')+'","'+(c.exp||'')+'","'+(c.cpkg||'')+'","'+(c.epkg||'')+'","'+c.stage+'","'+(c.cvName||'')+'"\n');}
   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='hyrz_'+type+'_'+new Date().toISOString().split('T')[0]+'.csv';a.click();
   showToast('✓ Exported successfully');
 }
@@ -2195,6 +2343,7 @@ function openEditCandidate(id) {
   editPendingCVText = '';
 
   document.getElementById('ec-name').value     = c.name || '';
+  populateJobDropdownForCandidate('ec-job', c.jobId || '');
   document.getElementById('ec-position').value = c.position || '';
   document.getElementById('ec-nationality').value = c.nationality || '';
   document.getElementById('ec-location').value = c.location || '';
@@ -2262,6 +2411,7 @@ function saveEditCandidate() {
   candidates[idx] = {
     ...candidates[idx],
     name,
+    jobId:       document.getElementById('ec-job').value || null,
     position:    document.getElementById('ec-position').value,
     nationality: document.getElementById('ec-nationality').value,
     location:    document.getElementById('ec-location').value,
@@ -2281,11 +2431,12 @@ function saveEditCandidate() {
     cvTexts[editingCandId] = editPendingCVText || '';
   }
 
-  closeModal('edit-cand-modal');
+  closeEditCandModal();
   renderCandidates(candidates);
   renderPipeline();
   updateDashboard();
   saveData();
+  refreshJobCandidatesModalIfOpen();
   showToast('✓ Candidate updated successfully');
 }
 
