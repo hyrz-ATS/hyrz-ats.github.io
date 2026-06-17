@@ -1143,16 +1143,29 @@ tr:last-child td{border-bottom:none;}tr:hover td{background:rgba(255,255,255,0.0
         <select id="c-job" onchange="onCandidateJobChange(this,'c-position')"><option value="">Custom Position (Type Below)</option></select>
         <input id="c-position" placeholder="e.g. HR Executive" style="margin-top:8px">
       </div>
-      <div class="mform-group"><label>Nationality</label><select id="c-nationality"><option value="">Select</option><option>Indian</option><option>Nepali</option><option>Filipino</option><option>Pakistani</option><option>Sri Lankan</option><option>Bangladeshi</option><option>Qatari</option><option>Egyptian</option><option>Jordanian</option><option>Lebanese</option><option>Syrian</option><option>Other</option></select></div>
+      <div class="mform-group">
+        <label>Nationality</label>
+        <select id="c-nationality" onchange="toggleOtherNationality('c-nationality','c-nationality-other')">
+          <option value="">Select</option><option>Indian</option><option>Nepali</option><option>Filipino</option><option>Pakistani</option><option>Sri Lankan</option><option>Bangladeshi</option><option>Qatari</option><option>Egyptian</option><option>Jordanian</option><option>Lebanese</option><option>Syrian</option><option>Other</option>
+        </select>
+        <input id="c-nationality-other" placeholder="Please specify nationality" style="margin-top:8px;display:none">
+      </div>
       <div class="mform-group"><label>Current Location</label><input id="c-location" placeholder="City, Country"></div>
       <div class="mform-group"><label>Marital Status</label><select id="c-marital"><option value="">Select</option><option>Single</option><option>Married</option><option>Divorced</option><option>Widowed</option></select></div>
       <div class="mform-group"><label>Visa Status</label><select id="c-visa"><option value="">Select</option><option>Employment Visa</option><option>Visit Visa</option><option>Tourist Visa</option><option>Family Visa</option><option>Student Visa</option><option>Freelance Visa</option><option>No Visa (Outside Qatar)</option><option>Transferable</option><option>Non-Transferable</option></select></div>
       <div class="mform-group"><label>Notice Period</label><select id="c-notice"><option value="">Select</option><option>Immediately Available</option><option>1 Week</option><option>2 Weeks</option><option>1 Month</option><option>2 Months</option><option>3 Months</option><option>More than 3 Months</option></select></div>
-      <div class="mform-group"><label>Experience (years)</label><input id="c-exp" type="number" placeholder="e.g. 5"></div>
+      <div class="mform-group">
+        <label>Total Experience</label>
+        <textarea id="c-exp" name="c-exp-field" autocomplete="off" autocorrect="off" spellcheck="false" rows="1" onkeydown="if(event.key==='Enter'){event.preventDefault();}" style="resize:none;overflow:hidden;height:38px;padding:9px 12px;line-height:1.4;"></textarea>
+      </div>
+      <div style="margin:-8px 0 14px;padding:7px 10px;background:rgba(56,189,248,0.06);border:1px solid rgba(56,189,248,0.18);border-radius:7px;font-size:11px;color:var(--muted2);line-height:1.5;grid-column:1/-1;">
+        💡 <strong style="color:var(--accent)">Note:</strong> Enter total work experience (e.g. <em>5 years</em>, <em>2 years 6 months</em>, <em>8+ years</em>).
+      </div>
       <div class="mform-group"><label>Age</label><input id="c-age" type="number" placeholder="e.g. 28" min="18" max="70"></div>
       <div class="mform-group"><label>Current Package (QAR)</label><input id="c-cpkg" type="number" placeholder="e.g. 4000"></div>
       <div class="mform-group"><label>Expected Package (QAR)</label><input id="c-epkg" type="number" placeholder="e.g. 5500"></div>
       <div class="mform-group full"><label>Pipeline Stage</label><select id="c-stage"><option value="applied">Applied</option><option value="shortlisted">Shortlisted</option><option value="interview">Interview</option><option value="offered">Offered</option><option value="placed">Placed</option></select></div>
+      <div class="mform-group full"><label>Notes / Remarks</label><textarea id="c-notes" placeholder="Any additional notes or remarks about this candidate..."></textarea></div>
       <div class="mform-group full">
         <label>&#128196; Upload CV — Data Bank (indexed for Boolean search)</label>
         <div id="cv-drop-zone" class="file-upload-zone" onclick="document.getElementById('cv-file-input').click()" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)">
@@ -1231,7 +1244,10 @@ tr:last-child td{border-bottom:none;}tr:hover td{background:rgba(255,255,255,0.0
         <input id="ec-position" placeholder="e.g. HR Executive" style="margin-top:8px">
       </div>
       <div class="mform-group"><label>Nationality</label>
-        <select id="ec-nationality"><option value="">Select</option><option>Indian</option><option>Nepali</option><option>Filipino</option><option>Pakistani</option><option>Sri Lankan</option><option>Bangladeshi</option><option>Qatari</option><option>Egyptian</option><option>Jordanian</option><option>Lebanese</option><option>Syrian</option><option>Other</option></select>
+        <select id="ec-nationality" onchange="toggleOtherNationality('ec-nationality','ec-nationality-other')">
+          <option value="">Select</option><option>Indian</option><option>Nepali</option><option>Filipino</option><option>Pakistani</option><option>Sri Lankan</option><option>Bangladeshi</option><option>Qatari</option><option>Egyptian</option><option>Jordanian</option><option>Lebanese</option><option>Syrian</option><option>Other</option>
+        </select>
+        <input id="ec-nationality-other" placeholder="Please specify nationality" style="margin-top:8px;display:none">
       </div>
       <div class="mform-group"><label>Current Location</label><input id="ec-location" placeholder="City, Country"></div>
       <div class="mform-group"><label>Marital Status</label>
@@ -1243,13 +1259,20 @@ tr:last-child td{border-bottom:none;}tr:hover td{background:rgba(255,255,255,0.0
       <div class="mform-group"><label>Notice Period</label>
         <select id="ec-notice"><option value="">Select</option><option>Immediately Available</option><option>1 Week</option><option>2 Weeks</option><option>1 Month</option><option>2 Months</option><option>3 Months</option><option>More than 3 Months</option></select>
       </div>
-      <div class="mform-group"><label>Experience (years)</label><input id="ec-exp" type="number" placeholder="e.g. 5"></div>
+      <div class="mform-group">
+        <label>Total Experience</label>
+        <textarea id="ec-exp" name="ec-exp-field" autocomplete="off" autocorrect="off" spellcheck="false" rows="1" onkeydown="if(event.key==='Enter'){event.preventDefault();}" style="resize:none;overflow:hidden;height:38px;padding:9px 12px;line-height:1.4;"></textarea>
+      </div>
+      <div style="margin:-8px 0 14px;padding:7px 10px;background:rgba(56,189,248,0.06);border:1px solid rgba(56,189,248,0.18);border-radius:7px;font-size:11px;color:var(--muted2);line-height:1.5;grid-column:1/-1;">
+        💡 <strong style="color:var(--accent)">Note:</strong> Enter total work experience (e.g. <em>5 years</em>, <em>2 years 6 months</em>, <em>8+ years</em>).
+      </div>
       <div class="mform-group"><label>Age</label><input id="ec-age" type="number" placeholder="e.g. 28" min="18" max="70"></div>
       <div class="mform-group"><label>Current Package (QAR)</label><input id="ec-cpkg" type="number" placeholder="e.g. 4000"></div>
       <div class="mform-group"><label>Expected Package (QAR)</label><input id="ec-epkg" type="number" placeholder="e.g. 5500"></div>
       <div class="mform-group full"><label>Pipeline Stage</label>
         <select id="ec-stage"><option value="applied">Applied</option><option value="shortlisted">Shortlisted</option><option value="interview">Interview</option><option value="offered">Offered</option><option value="placed">Placed</option></select>
       </div>
+      <div class="mform-group full"><label>Notes / Remarks</label><textarea id="ec-notes" placeholder="Any additional notes or remarks about this candidate..."></textarea></div>
       <div class="mform-group full">
         <label>&#128196; Replace CV (optional — leave empty to keep existing)</label>
         <div id="ec-drop-zone" class="file-upload-zone" onclick="document.getElementById('ec-file-input').click()" ondragover="handleDragOver(event,'ec-drop-zone')" ondragleave="handleDragLeave(event,'ec-drop-zone')" ondrop="handleDropEdit(event)">
@@ -1668,6 +1691,18 @@ function nav(el,page){
 function navTo(page){const el=document.querySelector('.nav-item[onclick*="\''+page+'\'"]');nav(el,page);}
 function openModal(id){document.getElementById(id).classList.add('open');}
 function closeModal(id){document.getElementById(id).classList.remove('open');}
+function toggleOtherNationality(selectId, inputId) {
+  const sel = document.getElementById(selectId);
+  const inp = document.getElementById(inputId);
+  if(sel.value === 'Other') {
+    inp.style.display = '';
+    inp.focus();
+  } else {
+    inp.style.display = 'none';
+    inp.value = '';
+  }
+}
+
 function showToast(msg,color){const t=document.getElementById('toast');t.textContent=msg;t.style.background=color||'var(--success)';t.style.color=color?'var(--text)':'#000';t.style.display='block';setTimeout(()=>t.style.display='none',3000);}
 
 // ======== SEARCH ========
@@ -1780,12 +1815,15 @@ function saveCandidate(){
   if(!name){showToast('Please enter candidate name.','var(--danger)');return;}
   const id=Date.now();
   const jobId=document.getElementById('c-job').value||null;
-  candidates.push({id,sl:candidates.length+1,name,jobId,position:document.getElementById('c-position').value,nationality:document.getElementById('c-nationality').value,location:document.getElementById('c-location').value,marital:document.getElementById('c-marital').value,visa:document.getElementById('c-visa').value,notice:document.getElementById('c-notice').value,exp:document.getElementById('c-exp').value,cpkg:document.getElementById('c-cpkg').value,epkg:document.getElementById('c-epkg').value,age:document.getElementById('c-age').value,
+  const natSel=document.getElementById('c-nationality').value;
+  const nationality=natSel==='Other'?(document.getElementById('c-nationality-other').value.trim()||'Other'):natSel;
+  candidates.push({id,sl:candidates.length+1,name,jobId,position:document.getElementById('c-position').value,nationality,location:document.getElementById('c-location').value,marital:document.getElementById('c-marital').value,visa:document.getElementById('c-visa').value,notice:document.getElementById('c-notice').value,exp:document.getElementById('c-exp').value.trim(),cpkg:document.getElementById('c-cpkg').value,epkg:document.getElementById('c-epkg').value,age:document.getElementById('c-age').value,notes:document.getElementById('c-notes').value.trim(),
     stage:document.getElementById('c-stage').value,created:new Date().toLocaleDateString(),cvName:pendingCVFile?pendingCVFile.name:null});
   if(pendingCVFile){cvFiles[id]=pendingCVFile;cvTexts[id]=pendingCVText||'';}
   closeCandModal();
-  ['c-name','c-position','c-location','c-exp','c-age','c-cpkg','c-epkg'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  ['c-name','c-position','c-location','c-exp','c-age','c-cpkg','c-epkg','c-notes'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
   ['c-nationality','c-marital','c-visa','c-notice','c-job'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  document.getElementById('c-nationality-other').style.display='none';document.getElementById('c-nationality-other').value='';
   document.getElementById('c-position').style.display='';
   document.getElementById('c-stage').value='applied';removePendingCV();
   document.getElementById('cand-badge').textContent=candidates.length;
@@ -1810,7 +1848,7 @@ function renderCandidates(list,boolQuery){
       <td>${c.jobId?`<span onclick="viewJobCandidates('${c.jobId}')" style="cursor:pointer" title="View linked job"><i class="ti ti-briefcase" style="font-size:10px;color:var(--accent);margin-right:4px"></i>${boolQuery?highlightText(c.position||'-',boolQuery):(c.position||'-')}</span>`:(boolQuery?highlightText(c.position||'-',boolQuery):(c.position||'-'))}</td>
       <td>${c.nationality||'-'}</td><td>${c.location||'-'}</td>
       <td><span class="badge badge-blue" style="font-size:9px">${c.visa||'-'}</span></td>
-      <td>${c.notice||'-'}</td><td>${c.age||'-'}</td><td>${c.exp?c.exp+'y':'-'}</td>
+      <td>${c.notice||'-'}</td><td>${c.age||'-'}</td><td>${c.exp?c.exp:'-'}</td>
       <td>${c.cpkg?'QAR '+Number(c.cpkg).toLocaleString():'-'}</td>
       <td>${c.epkg?'QAR '+Number(c.epkg).toLocaleString():'-'}</td>
       <td>${c.marital||'-'}</td><td>${cvCell}</td><td>${cvMatchCell}</td>
@@ -2033,7 +2071,7 @@ function viewJobCandidates(jobId){
         <td>${c.nationality||'<span style="color:var(--muted)">-</span>'}</td>
         <td><span class="badge badge-blue" style="font-size:9px">${c.visa||'-'}</span></td>
         <td>${c.notice||'<span style="color:var(--muted)">-</span>'}</td>
-        <td>${c.exp?c.exp+'y':'<span style="color:var(--muted)">-</span>'}</td>
+        <td>${c.exp?c.exp:'<span style="color:var(--muted)">-</span>'}</td>
         <td><select class="btn btn-ghost btn-sm" style="padding:3px 6px;font-size:10px;width:auto" onchange="changeCandStage(${c.id},this.value)">
           <option value="applied"${c.stage==='applied'?' selected':''}>Applied</option>
           <option value="shortlisted"${c.stage==='shortlisted'?' selected':''}>Shortlisted</option>
@@ -2068,7 +2106,11 @@ function saveClient(){
   closeModal('client-modal');renderClients();saveData();showToast('✓ Client added');
 }
 function renderClients(){
-  document.getElementById('clients-tbody').innerHTML=clients.map((cl,i)=>`<tr><td style="color:var(--muted)">${i+1}</td><td><b>${cl.company}</b></td><td>${cl.industry}</td><td>${cl.contact||'-'}</td><td>${cl.email||'-'}</td><td>${cl.phone||'-'}</td><td>${cl.location||'-'}</td><td><span class="badge ${cl.status==='Active'?'badge-green':'badge-yellow'}">${cl.status}</span></td><td style="display:flex;gap:4px"><button class="btn btn-edit btn-sm" onclick="openEditClient(${cl.id})"><i class="ti ti-edit"></i></button><button class="btn btn-danger btn-sm" onclick="deleteClient(${cl.id})"><i class="ti ti-trash"></i></button></td></tr>`).join('');
+  document.getElementById('clients-tbody').innerHTML=clients.map((cl,i)=>{
+    const jobCount=jobs.filter(j=>j.client===cl.company).length;
+    const nameCell=`<span onclick="viewClientJobs('${cl.company.replace(/'/g,"\\'")}')" style="font-weight:700;color:var(--accent);cursor:pointer;display:inline-flex;align-items:center;gap:6px" title="Click to view jobs for this client">${cl.company}<span style="font-size:10px;font-weight:600;color:${jobCount?'var(--success)':'var(--muted2)'};display:inline-flex;align-items:center;gap:3px;padding:2px 7px;background:${jobCount?'rgba(52,211,153,0.08)':'rgba(255,255,255,0.04)'};border:1px solid ${jobCount?'rgba(52,211,153,0.2)':'var(--border)'};border-radius:6px"><i class="ti ti-briefcase" style="font-size:10px"></i>${jobCount}</span></span>`;
+    return `<tr><td style="color:var(--muted)">${i+1}</td><td>${nameCell}</td><td>${cl.industry}</td><td>${cl.contact||'-'}</td><td>${cl.email||'-'}</td><td>${cl.phone||'-'}</td><td>${cl.location||'-'}</td><td><span class="badge ${cl.status==='Active'?'badge-green':'badge-yellow'}">${cl.status}</span></td><td style="display:flex;gap:4px"><button class="btn btn-edit btn-sm" onclick="openEditClient(${cl.id})"><i class="ti ti-edit"></i></button><button class="btn btn-danger btn-sm" onclick="deleteClient(${cl.id})"><i class="ti ti-trash"></i></button></td></tr>`;
+  }).join('');
 }
 function deleteClient(id){clients=clients.filter(cl=>cl.id!==id);renderClients();saveData();showToast('✓ Client deleted');}
 function updateDashboard(){
@@ -2096,7 +2138,7 @@ function exportCSV(type){
   const list=lastBoolResults&&currentSearchMode==='bool'?lastBoolResults:candidates;
   let csv='';
   if(type==='jobs'){csv='SL,Position,Client,Location,Industry,Working Days,Hours,Salary (QAR),FAT,Status,Candidates,Created\n';jobs.forEach((j,i)=>csv+=i+1+',"'+j.position+'","'+(j.client||'')+'","'+j.location+'","'+j.industry+'","'+j.days+' days","'+j.hours+'","'+j.salary+'","'+j.fat.join('+')+'","'+j.status+'","'+candidates.filter(c=>String(c.jobId)===String(j.id)).length+'","'+j.created+'"\n');}
-  else{csv='SL,Name,Linked Job,Position,Nationality,Location,Age,Marital,Visa,Notice,Exp (yrs),Curr PKG,Exp PKG,Stage,CV\n';list.forEach(c=>csv+=c.sl+',"'+c.name+'","'+getJobTitle(c.jobId)+'","'+(c.position||'')+'","'+(c.nationality||'')+'","'+(c.location||'')+'","'+(c.age||'')+'","'+(c.marital||'')+'","'+(c.visa||'')+'","'+(c.notice||'')+'","'+(c.exp||'')+'","'+(c.cpkg||'')+'","'+(c.epkg||'')+'","'+c.stage+'","'+(c.cvName||'')+'"\n');}
+  else{csv='SL,Name,Linked Job,Position,Nationality,Location,Age,Marital,Visa,Notice,Exp (yrs),Curr PKG,Exp PKG,Stage,Notes,CV\n';list.forEach(c=>csv+=c.sl+',"'+c.name+'","'+getJobTitle(c.jobId)+'","'+(c.position||'')+'","'+(c.nationality||'')+'","'+(c.location||'')+'","'+(c.age||'')+'","'+(c.marital||'')+'","'+(c.visa||'')+'","'+(c.notice||'')+'","'+(c.exp||'')+'","'+(c.cpkg||'')+'","'+(c.epkg||'')+'","'+c.stage+'","'+(c.notes||'').replace(/"/g,'""')+'","'+(c.cvName||'')+'"\n');}
   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='hyrz_'+type+'_'+new Date().toISOString().split('T')[0]+'.csv';a.click();
   showToast('✓ Exported successfully');
 }
@@ -2363,7 +2405,19 @@ function openEditCandidate(id) {
   document.getElementById('ec-name').value     = c.name || '';
   document.getElementById('ec-position').value = c.position || '';
   populateJobDropdownForCandidate('ec-job', c.jobId || '', 'ec-position');
-  document.getElementById('ec-nationality').value = c.nationality || '';
+  const knownNats = ['','Indian','Nepali','Filipino','Pakistani','Sri Lankan','Bangladeshi','Qatari','Egyptian','Jordanian','Lebanese','Syrian','Other'];
+  const natVal = c.nationality || '';
+  const natSel = document.getElementById('ec-nationality');
+  const natOther = document.getElementById('ec-nationality-other');
+  if(knownNats.includes(natVal)) {
+    natSel.value = natVal;
+    natOther.style.display = 'none';
+    natOther.value = '';
+  } else {
+    natSel.value = 'Other';
+    natOther.style.display = '';
+    natOther.value = natVal;
+  }
   document.getElementById('ec-location').value = c.location || '';
   document.getElementById('ec-marital').value  = c.marital || '';
   document.getElementById('ec-visa').value     = c.visa || '';
@@ -2373,6 +2427,7 @@ function openEditCandidate(id) {
   document.getElementById('ec-cpkg').value     = c.cpkg || '';
   document.getElementById('ec-epkg').value     = c.epkg || '';
   document.getElementById('ec-stage').value    = c.stage || 'applied';
+  document.getElementById('ec-notes').value    = c.notes || '';
 
   // Reset CV zone
   document.getElementById('ec-drop-zone').style.display = 'block';
@@ -2431,16 +2486,17 @@ function saveEditCandidate() {
     name,
     jobId:       document.getElementById('ec-job').value || null,
     position:    document.getElementById('ec-position').value,
-    nationality: document.getElementById('ec-nationality').value,
+    nationality: (()=>{ const s=document.getElementById('ec-nationality').value; return s==='Other'?(document.getElementById('ec-nationality-other').value.trim()||'Other'):s; })(),
     location:    document.getElementById('ec-location').value,
     marital:     document.getElementById('ec-marital').value,
     visa:        document.getElementById('ec-visa').value,
     notice:      document.getElementById('ec-notice').value,
-    exp:         document.getElementById('ec-exp').value,
+    exp:         document.getElementById('ec-exp').value.trim(),
     age:         document.getElementById('ec-age').value,
     cpkg:        document.getElementById('ec-cpkg').value,
     epkg:        document.getElementById('ec-epkg').value,
     stage:       document.getElementById('ec-stage').value,
+    notes:       document.getElementById('ec-notes').value.trim(),
     cvName:      editPendingCVFile ? editPendingCVFile.name : candidates[idx].cvName,
   };
 
