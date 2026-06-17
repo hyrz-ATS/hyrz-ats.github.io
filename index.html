@@ -1314,6 +1314,23 @@ tr:last-child td{border-bottom:none;}tr:hover td{background:rgba(255,255,255,0.0
   </div>
 </div>
 
+<!-- CLIENT JOBS MODAL -->
+<div class="modal-overlay" id="client-jobs-modal">
+  <div class="modal" style="max-width:700px">
+    <div class="modal-title">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="width:34px;height:34px;border-radius:8px;background:rgba(56,189,248,0.12);display:flex;align-items:center;justify-content:center"><i class="ti ti-building" style="color:var(--accent);font-size:18px"></i></div>
+        <div>
+          <div id="cjm-client-name" style="font-size:16px;font-weight:700;color:var(--text)"></div>
+          <div id="cjm-client-sub" style="font-size:11px;color:var(--muted2);font-weight:400;margin-top:1px"></div>
+        </div>
+      </div>
+      <button class="modal-close" onclick="closeModal('client-jobs-modal')">&#10005;</button>
+    </div>
+    <div id="cjm-body"></div>
+  </div>
+</div>
+
 <!-- ===== AI ASSISTANT FAB ===== -->
 <button id="ai-fab" onclick="toggleAI()" title="HyrZ AI Assistant">
   <span class="ai-fab-icon">🤖</span>
@@ -1810,9 +1827,67 @@ function renderJobs(search,statusFilter){
   const tbody=document.getElementById('jobs-tbody');
   const f=jobs.filter(j=>(j.position+j.location+j.industry).toLowerCase().includes(search.toLowerCase())&&(!statusFilter||j.status===statusFilter));
   if(!f.length){tbody.innerHTML='<tr><td colspan="11" class="empty-state">No jobs found.</td></tr>';return;}
-  tbody.innerHTML=f.map((j,i)=>`<tr><td style="color:var(--muted)">${i+1}</td><td><b>${j.position}</b>${j.client?`<div style="font-size:10px;color:var(--accent);margin-top:2px;display:flex;align-items:center;gap:3px"><i class="ti ti-building"></i>${j.client}</div>`:''}</td><td>${j.client?`<span style="font-size:11px;font-weight:600;color:var(--text)">${j.client}</span>`:'<span style="color:var(--muted)">-</span>'}</td><td>${j.location||'-'}</td><td>${j.industry||'-'}</td><td>${j.days?j.days+' days':'-'}</td><td>${j.hours?j.hours+'h':'-'}</td><td>${j.salary?'QAR '+Number(j.salary).toLocaleString():'-'}</td><td>${j.fat&&j.fat.length?j.fat.map(f=>'<span class="tag">'+f+'</span>').join(''):'<span style="color:var(--muted)">-</span>'}</td><td><span class="badge ${j.status==='Active'?'badge-green':j.status==='Pending'?'badge-yellow':'badge-red'}">${j.status}</span></td><td style="display:flex;gap:4px"><button class="btn btn-edit btn-sm" onclick="openEditJob(${j.id})"><i class="ti ti-edit"></i></button><button class="btn btn-danger btn-sm" onclick="deleteJob(${j.id})"><i class="ti ti-trash"></i></button></td></tr>`).join('');
+  tbody.innerHTML=f.map((j,i)=>`<tr><td style="color:var(--muted)">${i+1}</td><td><b>${j.position}</b>${j.client?`<div style="font-size:10px;color:var(--accent);margin-top:2px;display:flex;align-items:center;gap:3px"><i class="ti ti-building"></i>${j.client}</div>`:''}</td><td>${j.client?`<span onclick="viewClientJobs('${j.client.replace(/'/g,"\\'")}\')" style="font-size:11px;font-weight:600;color:var(--accent);cursor:pointer;display:inline-flex;align-items:center;gap:4px;padding:2px 8px;background:rgba(56,189,248,0.08);border:1px solid rgba(56,189,248,0.2);border-radius:6px;transition:all 0.15s" onmouseover="this.style.background='rgba(56,189,248,0.18)'" onmouseout="this.style.background='rgba(56,189,248,0.08)'" title="Click to view all positions for this client"><i class="ti ti-building" style="font-size:10px"></i>${j.client}</span>`:'<span style="color:var(--muted)">-</span>'}</td><td>${j.location||'-'}</td><td>${j.industry||'-'}</td><td>${j.days?j.days+' days':'-'}</td><td>${j.hours?j.hours+'h':'-'}</td><td>${j.salary?'QAR '+Number(j.salary).toLocaleString():'-'}</td><td>${j.fat&&j.fat.length?j.fat.map(f=>'<span class="tag">'+f+'</span>').join(''):'<span style="color:var(--muted)">-</span>'}</td><td><span class="badge ${j.status==='Active'?'badge-green':j.status==='Pending'?'badge-yellow':'badge-red'}">${j.status}</span></td><td style="display:flex;gap:4px"><button class="btn btn-edit btn-sm" onclick="openEditJob(${j.id})"><i class="ti ti-edit"></i></button><button class="btn btn-danger btn-sm" onclick="deleteJob(${j.id})"><i class="ti ti-trash"></i></button></td></tr>`).join('');
 }
 function deleteJob(id){jobs=jobs.filter(j=>j.id!==id);document.getElementById('jobs-badge').textContent=jobs.length;renderJobs();updateDashboard();saveData();showToast('✓ Job deleted');}
+
+function viewClientJobs(clientName) {
+  const clientJobs = jobs.filter(j => j.client === clientName);
+  const cl = clients.find(c => c.company === clientName);
+
+  document.getElementById('cjm-client-name').textContent = clientName;
+  document.getElementById('cjm-client-sub').textContent =
+    (cl ? (cl.industry ? cl.industry + ' · ' : '') + (cl.location || '') : '') +
+    ' — ' + clientJobs.length + ' position' + (clientJobs.length !== 1 ? 's' : '');
+
+  const statusColors = { Active: 'badge-green', Pending: 'badge-yellow', Closed: 'badge-red' };
+
+  if (!clientJobs.length) {
+    document.getElementById('cjm-body').innerHTML =
+      '<div class="empty-state" style="padding:40px 20px"><i class="ti ti-briefcase-off" style="font-size:36px;display:block;margin-bottom:10px;color:var(--muted)"></i>No positions found for this client.</div>';
+  } else {
+    // Summary chips
+    const active = clientJobs.filter(j => j.status === 'Active').length;
+    const pending = clientJobs.filter(j => j.status === 'Pending').length;
+    const closed = clientJobs.filter(j => j.status === 'Closed').length;
+
+    const summaryHtml = `
+      <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap">
+        <div style="padding:8px 16px;border-radius:8px;background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.25);font-size:12px;font-weight:600;color:var(--success)">${active} Active</div>
+        <div style="padding:8px 16px;border-radius:8px;background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.25);font-size:12px;font-weight:600;color:var(--warning)">${pending} Pending</div>
+        <div style="padding:8px 16px;border-radius:8px;background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.25);font-size:12px;font-weight:600;color:var(--danger)">${closed} Closed</div>
+      </div>`;
+
+    const rowsHtml = clientJobs.map((j, i) => `
+      <tr>
+        <td style="color:var(--muted)">${i + 1}</td>
+        <td><b style="font-size:12px">${j.position}</b></td>
+        <td>${j.location || '<span style="color:var(--muted)">-</span>'}</td>
+        <td>${j.industry || '<span style="color:var(--muted)">-</span>'}</td>
+        <td>${j.days ? j.days + ' days' : '<span style="color:var(--muted)">-</span>'}</td>
+        <td>${j.hours ? j.hours + 'h' : '<span style="color:var(--muted)">-</span>'}</td>
+        <td>${j.salary ? 'QAR ' + Number(j.salary).toLocaleString() : '<span style="color:var(--muted)">-</span>'}</td>
+        <td>${j.fat && j.fat.length ? j.fat.map(f => '<span class="tag">' + f + '</span>').join('') : '<span style="color:var(--muted)">-</span>'}</td>
+        <td><span class="badge ${statusColors[j.status] || 'badge-blue'}">${j.status}</span></td>
+        <td><span style="font-size:10px;color:var(--muted)">${j.created || ''}</span></td>
+      </tr>`).join('');
+
+    document.getElementById('cjm-body').innerHTML = summaryHtml + `
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th><th>Position</th><th>Location</th><th>Industry</th>
+              <th>Days</th><th>Hours</th><th>Budget</th><th>FAT</th><th>Status</th><th>Created</th>
+            </tr>
+          </thead>
+          <tbody>${rowsHtml}</tbody>
+        </table>
+      </div>`;
+  }
+  openModal('client-jobs-modal');
+}
+
 function renderPipeline(){
   ['applied','shortlisted','interview','offered','placed'].forEach(stage=>{
     const cont=document.getElementById('cards-'+stage);const sc=candidates.filter(c=>c.stage===stage);
