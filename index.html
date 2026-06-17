@@ -1138,8 +1138,11 @@ tr:last-child td{border-bottom:none;}tr:hover td{background:rgba(255,255,255,0.0
     <div class="modal-title">Add New Candidate <button class="modal-close" onclick="closeCandModal()">&#10005;</button></div>
     <div class="mform-grid">
       <div class="mform-group"><label>Full Name *</label><input id="c-name" placeholder="Full name"></div>
-      <div class="mform-group full"><label>Linked Job</label><select id="c-job" onchange="onCandidateJobChange(this,'c-position')"><option value="">No Specific Job (General Application)</option></select></div>
-      <div class="mform-group"><label>Position Applied For</label><input id="c-position" placeholder="e.g. HR Executive"></div>
+      <div class="mform-group full">
+        <label>Position Applied For</label>
+        <select id="c-job" onchange="onCandidateJobChange(this,'c-position')"><option value="">Custom Position (Type Below)</option></select>
+        <input id="c-position" placeholder="e.g. HR Executive" style="margin-top:8px">
+      </div>
       <div class="mform-group"><label>Nationality</label><select id="c-nationality"><option value="">Select</option><option>Indian</option><option>Nepali</option><option>Filipino</option><option>Pakistani</option><option>Sri Lankan</option><option>Bangladeshi</option><option>Qatari</option><option>Egyptian</option><option>Jordanian</option><option>Lebanese</option><option>Syrian</option><option>Other</option></select></div>
       <div class="mform-group"><label>Current Location</label><input id="c-location" placeholder="City, Country"></div>
       <div class="mform-group"><label>Marital Status</label><select id="c-marital"><option value="">Select</option><option>Single</option><option>Married</option><option>Divorced</option><option>Widowed</option></select></div>
@@ -1222,8 +1225,11 @@ tr:last-child td{border-bottom:none;}tr:hover td{background:rgba(255,255,255,0.0
     <div class="modal-title">Edit Candidate <button class="modal-close" onclick="closeEditCandModal()">&#10005;</button></div>
     <div class="mform-grid">
       <div class="mform-group"><label>Full Name *</label><input id="ec-name" placeholder="Full name"></div>
-      <div class="mform-group full"><label>Linked Job</label><select id="ec-job" onchange="onCandidateJobChange(this,'ec-position')"><option value="">No Specific Job (General Application)</option></select></div>
-      <div class="mform-group"><label>Position Applied For</label><input id="ec-position" placeholder="e.g. HR Executive"></div>
+      <div class="mform-group full">
+        <label>Position Applied For</label>
+        <select id="ec-job" onchange="onCandidateJobChange(this,'ec-position')"><option value="">Custom Position (Type Below)</option></select>
+        <input id="ec-position" placeholder="e.g. HR Executive" style="margin-top:8px">
+      </div>
       <div class="mform-group"><label>Nationality</label>
         <select id="ec-nationality"><option value="">Select</option><option>Indian</option><option>Nepali</option><option>Filipino</option><option>Pakistani</option><option>Sri Lankan</option><option>Bangladeshi</option><option>Qatari</option><option>Egyptian</option><option>Jordanian</option><option>Lebanese</option><option>Syrian</option><option>Other</option></select>
       </div>
@@ -1780,6 +1786,7 @@ function saveCandidate(){
   closeCandModal();
   ['c-name','c-position','c-location','c-exp','c-age','c-cpkg','c-epkg'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
   ['c-nationality','c-marital','c-visa','c-notice','c-job'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  document.getElementById('c-position').style.display='';
   document.getElementById('c-stage').value='applied';removePendingCV();
   document.getElementById('cand-badge').textContent=candidates.length;
   renderCandidates(candidates);renderPipeline();updateDashboard();
@@ -1800,7 +1807,7 @@ function renderCandidates(list,boolQuery){
     return`<tr class="${boolQuery&&cvMatchedInText?'row-match':''}">
       <td style="color:var(--muted);font-weight:600">${c.sl}</td>
       <td><div style="display:flex;align-items:center;gap:8px"><div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#000;flex-shrink:0">${initials}</div><b>${boolQuery?highlightText(c.name,boolQuery):c.name}</b></div></td>
-      <td>${boolQuery?highlightText(c.position||'-',boolQuery):(c.position||'-')}${c.jobId?`<div onclick="viewJobCandidates('${c.jobId}')" style="font-size:10px;color:var(--accent);margin-top:2px;display:flex;align-items:center;gap:3px;cursor:pointer" title="View linked job"><i class="ti ti-briefcase"></i>${getJobTitle(c.jobId)||'Linked job'}</div>`:''}</td>
+      <td>${c.jobId?`<span onclick="viewJobCandidates('${c.jobId}')" style="cursor:pointer" title="View linked job"><i class="ti ti-briefcase" style="font-size:10px;color:var(--accent);margin-right:4px"></i>${boolQuery?highlightText(c.position||'-',boolQuery):(c.position||'-')}</span>`:(boolQuery?highlightText(c.position||'-',boolQuery):(c.position||'-'))}</td>
       <td>${c.nationality||'-'}</td><td>${c.location||'-'}</td>
       <td><span class="badge badge-blue" style="font-size:9px">${c.visa||'-'}</span></td>
       <td>${c.notice||'-'}</td><td>${c.age||'-'}</td><td>${c.exp?c.exp+'y':'-'}</td>
@@ -1926,23 +1933,34 @@ function getJobTitle(jobId){
   return j?j.position:'';
 }
 
-function populateJobDropdownForCandidate(selectId, presetJobId){
+function populateJobDropdownForCandidate(selectId, presetJobId, positionFieldId){
   const sel=document.getElementById(selectId);
   if(!sel) return;
   presetJobId=presetJobId?String(presetJobId):'';
-  sel.innerHTML='<option value="">No Specific Job (General Application)</option>'+
+  sel.innerHTML='<option value="">Custom Position (Type Below)</option>'+
     jobs.map(j=>`<option value="${j.id}"${String(j.id)===presetJobId?' selected':''}>${j.position}${j.client?' — '+j.client:''}</option>`).join('');
   if(presetJobId) sel.value=presetJobId;
+  if(positionFieldId) syncCandidatePositionField(sel, positionFieldId);
 }
 
-function onCandidateJobChange(selectEl, positionFieldId){
-  const jobId=selectEl.value;
+// Keeps the Position field in sync with the Linked Job select: when a job is
+// chosen, the position is taken straight from the job and the manual input is
+// hidden (so the title never appears twice); when "Custom Position" is chosen,
+// the manual input reappears for free text.
+function syncCandidatePositionField(selectEl, positionFieldId){
   const posField=document.getElementById(positionFieldId);
   if(!posField) return;
+  const jobId=selectEl.value;
   if(jobId){
     const job=jobs.find(j=>String(j.id)===jobId);
     if(job) posField.value=job.position;
+    posField.style.display='none';
+  }else{
+    posField.style.display='';
   }
+}
+function onCandidateJobChange(selectEl, positionFieldId){
+  syncCandidatePositionField(selectEl, positionFieldId);
 }
 
 // Opens the Add Candidate modal, optionally pre-linked to a job. If called while
@@ -1952,7 +1970,7 @@ function openAddCandidateModal(jobId){
   const jobModalOpen=document.getElementById('job-cands-modal').classList.contains('open');
   if(jobModalOpen) closeModal('job-cands-modal');
   returnToJobModalAfterAction=jobId?jobId:(jobModalOpen?currentViewedJobId:null);
-  populateJobDropdownForCandidate('c-job', jobId||'');
+  populateJobDropdownForCandidate('c-job', jobId||'', 'c-position');
   openModal('cand-modal');
 }
 function closeCandModal(){
@@ -2343,8 +2361,8 @@ function openEditCandidate(id) {
   editPendingCVText = '';
 
   document.getElementById('ec-name').value     = c.name || '';
-  populateJobDropdownForCandidate('ec-job', c.jobId || '');
   document.getElementById('ec-position').value = c.position || '';
+  populateJobDropdownForCandidate('ec-job', c.jobId || '', 'ec-position');
   document.getElementById('ec-nationality').value = c.nationality || '';
   document.getElementById('ec-location').value = c.location || '';
   document.getElementById('ec-marital').value  = c.marital || '';
