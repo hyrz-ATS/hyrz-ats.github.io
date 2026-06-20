@@ -749,6 +749,200 @@ tr:last-child td{border-bottom:none;}tr:hover td{background:rgba(255,255,255,0.0
   .user-type-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
 }
 
+
+/* ══════════════════════════════════════════
+   GLOBAL SEARCH & NOTIFICATIONS
+══════════════════════════════════════════ */
+
+/* Search box active state */
+.search-box { position: relative; }
+.search-box input:focus { outline: none; }
+
+/* Search results dropdown */
+#search-results-dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  width: 380px;
+  background: var(--sidebar);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+  z-index: 9999;
+  overflow: hidden;
+  max-height: 480px;
+  overflow-y: auto;
+}
+#search-results-dropdown.open { display: block; }
+
+.search-dropdown-header {
+  padding: 10px 16px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
+  background: var(--card2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.search-result-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: background 0.15s;
+  border-bottom: 1px solid var(--border);
+}
+.search-result-item:last-child { border-bottom: none; }
+.search-result-item:hover { background: var(--card2); }
+.search-result-icon {
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; flex-shrink: 0;
+}
+.search-result-main { flex: 1; min-width: 0; }
+.search-result-name {
+  font-size: 12px; font-weight: 600;
+  color: var(--text);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.search-result-sub {
+  font-size: 11px; color: var(--muted2); margin-top: 1px;
+}
+.search-result-type {
+  font-size: 10px; font-weight: 600;
+  padding: 2px 8px; border-radius: 20px;
+  flex-shrink: 0;
+}
+.search-empty-state {
+  padding: 28px 16px;
+  text-align: center;
+  color: var(--muted2);
+  font-size: 12px;
+}
+.search-empty-state i { font-size: 28px; display: block; margin-bottom: 8px; color: var(--muted); }
+.search-highlight { color: var(--accent); font-weight: 700; }
+
+/* Notification bell */
+.notif-bell-wrap { position: relative; cursor: pointer; display: flex; align-items: center; }
+.notif-dot {
+  position: absolute;
+  top: -2px; right: -2px;
+  width: 8px; height: 8px;
+  background: var(--danger);
+  border-radius: 50%;
+  border: 2px solid var(--sidebar);
+  display: none;
+}
+.notif-dot.show { display: block; }
+.notif-count {
+  position: absolute;
+  top: -5px; right: -8px;
+  background: var(--danger);
+  color: #fff;
+  font-size: 9px; font-weight: 800;
+  min-width: 16px; height: 16px;
+  border-radius: 8px;
+  display: none;
+  align-items: center; justify-content: center;
+  padding: 0 3px;
+  border: 1.5px solid var(--sidebar);
+  font-family: var(--font);
+}
+.notif-count.show { display: flex; }
+
+/* Notification dropdown */
+#notif-panel {
+  display: none;
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  width: 340px;
+  background: var(--sidebar);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+  z-index: 9999;
+  overflow: hidden;
+  max-height: 460px;
+  display: none;
+}
+#notif-panel.open { display: block; }
+
+.notif-panel-header {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.notif-panel-title { font-size: 13px; font-weight: 700; color: var(--text); }
+.notif-mark-all {
+  font-size: 11px; color: var(--accent);
+  cursor: pointer; font-weight: 600;
+  background: none; border: none; font-family: var(--font);
+}
+.notif-mark-all:hover { text-decoration: underline; }
+.notif-list { max-height: 360px; overflow-y: auto; }
+.notif-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: background 0.15s;
+  position: relative;
+}
+.notif-item:hover { background: var(--card2); }
+.notif-item.unread { background: rgba(56,189,248,0.04); }
+.notif-item.unread::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--accent);
+  border-radius: 0 2px 2px 0;
+}
+.notif-icon {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px; flex-shrink: 0;
+}
+.notif-text { flex: 1; min-width: 0; }
+.notif-msg { font-size: 12px; color: var(--text); line-height: 1.5; }
+.notif-msg strong { color: var(--text); }
+.notif-time { font-size: 10px; color: var(--muted); margin-top: 3px; }
+.notif-empty {
+  padding: 36px 16px;
+  text-align: center;
+  color: var(--muted2);
+  font-size: 12px;
+}
+.notif-empty i { font-size: 32px; display: block; margin-bottom: 10px; color: var(--muted); opacity: 0.5; }
+.notif-footer {
+  padding: 10px 16px;
+  border-top: 1px solid var(--border);
+  text-align: center;
+  font-size: 11px;
+  color: var(--accent);
+  cursor: pointer;
+  font-weight: 600;
+}
+.notif-footer:hover { background: var(--card2); }
+
+@media (max-width: 768px) {
+  #search-results-dropdown { width: calc(100vw - 24px); left: -160px; }
+  #notif-panel { width: 300px; right: -60px; }
+}
+
 </style>
 </head>
 <body>
@@ -932,8 +1126,39 @@ tr:last-child td{border-bottom:none;}tr:hover td{background:rgba(255,255,255,0.0
         <button id="hamburger" onclick="toggleSidebar()" aria-label="Menu">&#9776;</button>
         <div class="page-title" id="topbar-title">Dashboard</div>
         <div class="topbar-actions">
-          <div class="search-box"><i class="ti ti-search"></i><input placeholder="Search..."></div>
-          <i class="ti ti-bell" style="color:var(--muted2);font-size:18px;cursor:pointer"></i>
+          <!-- Global Search -->
+          <div class="search-box" style="position:relative">
+            <i class="ti ti-search"></i>
+            <input
+              placeholder="Search candidates, jobs, clients..."
+              id="global-search-input"
+              oninput="runGlobalSearch(this.value)"
+              onkeydown="handleSearchKey(event)"
+              autocomplete="off"
+            >
+            <!-- Search Results Dropdown -->
+            <div id="search-results-dropdown"></div>
+          </div>
+
+          <!-- Notifications Bell -->
+          <div class="notif-bell-wrap" id="notif-bell-wrap" onclick="toggleNotifPanel()">
+            <i class="ti ti-bell" style="color:var(--muted2);font-size:18px"></i>
+            <span class="notif-count" id="notif-count">0</span>
+            <!-- Notification Panel -->
+            <div id="notif-panel">
+              <div class="notif-panel-header">
+                <div class="notif-panel-title">🔔 Notifications</div>
+                <button class="notif-mark-all" onclick="markAllRead(event)">Mark all read</button>
+              </div>
+              <div class="notif-list" id="notif-list">
+                <div class="notif-empty">
+                  <i class="ti ti-bell-off"></i>
+                  No notifications yet
+                </div>
+              </div>
+              <div class="notif-footer" onclick="clearAllNotifs(event)">Clear all notifications</div>
+            </div>
+          </div>
           <div class="user-pill" onclick="toggleUserDropdown()" id="user-pill">
             <div class="user-avatar" id="topbar-avatar">MS</div>
             <div>
@@ -984,7 +1209,8 @@ tr:last-child td{border-bottom:none;}tr:hover td{background:rgba(255,255,255,0.0
               <div class="filter-row">
                 <input placeholder="Search name, position, location..." id="cand-basic-search" oninput="runBasicSearch()">
                 <select id="cand-nat-filter" onchange="runBasicSearch()"><option value="">All Nationalities</option><option>Indian</option><option>Nepali</option><option>Filipino</option><option>Pakistani</option><option>Sri Lankan</option><option>Bangladeshi</option><option>Qatari</option><option>Egyptian</option><option>Jordanian</option><option>Lebanese</option><option>Other</option></select>
-                <select id="cand-stage-filter" onchange="runBasicSearch()"><option value="">All Stages</option><option value="applied">Applied</option><option value="shortlisted">Shortlisted</option><option value="interview">Interview</option><option value="offered">Offered</option><option value="placed">Placed</option></select>
+                <select id="cand-stage-filter" onchange="runBasicSearch()"><option value="">All Stages</option><option value="applied">Applied</option><option value="screening">Screening</option><option value="shortlisted">Shortlisted</option><option value="interview">Interview</option><option value="offered">Offered</option><option value="hired">Hired</option><option value="rejected">Rejected</option><option value="archived">Archived</option></select>
+                <select id="cand-sort" onchange="runBasicSearch()"><option value="">Sort: Default</option><option value="az">Name: A to Z</option><option value="za">Name: Z to A</option><option value="newest">Date: Newest First</option><option value="oldest">Date: Oldest First</option></select>
               </div>
               <div style="display:flex;gap:8px">
                 <button class="btn btn-ghost" onclick="exportCSV('candidates')"><i class="ti ti-table-export"></i> Export</button>
@@ -1033,7 +1259,7 @@ tr:last-child td{border-bottom:none;}tr:hover td{background:rgba(255,255,255,0.0
         <!-- JOBS -->
         <div class="page" id="page-jobs">
           <div class="action-row">
-            <div class="filter-row"><input placeholder="Search jobs..." oninput="renderJobs(this.value)"><select onchange="renderJobs('',this.value)"><option value="">All Status</option><option>Active</option><option>Pending</option><option>Closed</option></select></div>
+            <div class="filter-row"><input placeholder="Search jobs..." id="jobs-search-input" oninput="runJobsFilter()"><select id="jobs-status-filter" onchange="runJobsFilter()"><option value="">All Status</option><option>Active</option><option>Pending</option><option>Closed</option></select><select id="jobs-sort" onchange="runJobsFilter()"><option value="">Sort: Default</option><option value="az">Position: A to Z</option><option value="za">Position: Z to A</option><option value="newest">Date: Newest First</option><option value="oldest">Date: Oldest First</option></select></div>
             <div style="display:flex;gap:8px"><button class="btn btn-ghost" onclick="exportCSV('jobs')"><i class="ti ti-table-export"></i> Export</button><button class="btn btn-primary" onclick="populateClientDropdown();openModal('job-modal')"><i class="ti ti-plus"></i> Create Job</button></div>
           </div>
           <div class="card" style="padding:0;overflow:hidden"><div class="table-wrap"><table>
@@ -1046,10 +1272,13 @@ tr:last-child td{border-bottom:none;}tr:hover td{background:rgba(255,255,255,0.0
         <div class="page" id="page-pipeline">
           <div class="pipeline">
             <div class="pipeline-col"><div class="pipeline-col-header"><span style="color:var(--accent)">Applied</span><span class="badge badge-blue" id="cnt-applied">0</span></div><div id="cards-applied"></div></div>
+            <div class="pipeline-col"><div class="pipeline-col-header"><span style="color:#67E8F9">Screening</span><span class="badge badge-blue" id="cnt-screening">0</span></div><div id="cards-screening"></div></div>
             <div class="pipeline-col"><div class="pipeline-col-header"><span style="color:var(--warning)">Shortlisted</span><span class="badge badge-yellow" id="cnt-shortlisted">0</span></div><div id="cards-shortlisted"></div></div>
             <div class="pipeline-col"><div class="pipeline-col-header"><span style="color:var(--accent2)">Interview</span><span class="badge badge-purple" id="cnt-interview">0</span></div><div id="cards-interview"></div></div>
             <div class="pipeline-col"><div class="pipeline-col-header"><span style="color:#FB7185">Offered</span><span class="badge badge-red" id="cnt-offered">0</span></div><div id="cards-offered"></div></div>
-            <div class="pipeline-col"><div class="pipeline-col-header"><span style="color:var(--success)">Placed</span><span class="badge badge-green" id="cnt-placed">0</span></div><div id="cards-placed"></div></div>
+            <div class="pipeline-col"><div class="pipeline-col-header"><span style="color:var(--success)">Hired</span><span class="badge badge-green" id="cnt-hired">0</span></div><div id="cards-hired"></div></div>
+            <div class="pipeline-col"><div class="pipeline-col-header"><span style="color:var(--danger)">Rejected</span><span class="badge badge-red" id="cnt-rejected">0</span></div><div id="cards-rejected"></div></div>
+            <div class="pipeline-col"><div class="pipeline-col-header"><span style="color:var(--muted2)">Archived</span><span class="badge" style="background:rgba(100,116,139,0.2);color:var(--muted2)" id="cnt-archived">0</span></div><div id="cards-archived"></div></div>
           </div>
         </div>
 
@@ -1164,7 +1393,7 @@ tr:last-child td{border-bottom:none;}tr:hover td{background:rgba(255,255,255,0.0
       <div class="mform-group"><label>Age</label><input id="c-age" type="number" placeholder="e.g. 28" min="18" max="70"></div>
       <div class="mform-group"><label>Current Package (QAR)</label><input id="c-cpkg" type="number" placeholder="e.g. 4000"></div>
       <div class="mform-group"><label>Expected Package (QAR)</label><input id="c-epkg" type="number" placeholder="e.g. 5500"></div>
-      <div class="mform-group full"><label>Pipeline Stage</label><select id="c-stage"><option value="applied">Applied</option><option value="shortlisted">Shortlisted</option><option value="interview">Interview</option><option value="offered">Offered</option><option value="placed">Placed</option></select></div>
+      <div class="mform-group full"><label>Pipeline Stage</label><select id="c-stage"><option value="applied">Applied</option><option value="screening">Screening</option><option value="shortlisted">Shortlisted</option><option value="interview">Interview</option><option value="offered">Offered</option><option value="hired">Hired</option><option value="rejected">Rejected</option><option value="archived">Archived</option></select></div>
       <div class="mform-group full"><label>Notes / Remarks</label><textarea id="c-notes" placeholder="Any additional notes or remarks about this candidate..."></textarea></div>
       <div class="mform-group full">
         <label>&#128196; Upload CV — Data Bank (indexed for Boolean search)</label>
@@ -1270,7 +1499,7 @@ tr:last-child td{border-bottom:none;}tr:hover td{background:rgba(255,255,255,0.0
       <div class="mform-group"><label>Current Package (QAR)</label><input id="ec-cpkg" type="number" placeholder="e.g. 4000"></div>
       <div class="mform-group"><label>Expected Package (QAR)</label><input id="ec-epkg" type="number" placeholder="e.g. 5500"></div>
       <div class="mform-group full"><label>Pipeline Stage</label>
-        <select id="ec-stage"><option value="applied">Applied</option><option value="shortlisted">Shortlisted</option><option value="interview">Interview</option><option value="offered">Offered</option><option value="placed">Placed</option></select>
+        <select id="ec-stage"><option value="applied">Applied</option><option value="screening">Screening</option><option value="shortlisted">Shortlisted</option><option value="interview">Interview</option><option value="offered">Offered</option><option value="hired">Hired</option><option value="rejected">Rejected</option><option value="archived">Archived</option></select>
       </div>
       <div class="mform-group full"><label>Notes / Remarks</label><textarea id="ec-notes" placeholder="Any additional notes or remarks about this candidate..."></textarea></div>
       <div class="mform-group full">
@@ -1595,7 +1824,7 @@ function initApp() {
   const greeting = hour<12?'Good morning':(hour<17?'Good afternoon':'Good evening');
   document.getElementById('dash-greeting').textContent = greeting+', '+(currentUser.fname||'there')+'!';
   document.getElementById('dash-date').textContent = new Date().toLocaleDateString('en-QA',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
-  updateDashboard(); renderPipeline(); renderClients(); renderCandidates(candidates);
+  updateDashboard(); renderPipeline(); renderClients(); renderCandidatesDefault();
   document.getElementById('jobs-badge').textContent=jobs.length;
   document.getElementById('cand-badge').textContent=candidates.length;
   showFeedbackFab();
@@ -1676,15 +1905,15 @@ function nav(el,page){
   document.getElementById('topbar-title').textContent=titles[page]||page;
   document.getElementById('user-dropdown').classList.remove('open');
   if(page==='dashboard')updateDashboard();
-  if(page==='jobs')renderJobs();
-  if(page==='candidates')renderCandidates(candidates);
+  if(page==='jobs')renderJobsDefault();
+  if(page==='candidates')renderCandidatesDefault();
   if(page==='pipeline')renderPipeline();
   if(page==='reports')updateReports();
   if(page==='clients')renderClients();
   if(page==='profile'){
     document.getElementById('ps-jobs').textContent=jobs.length;
     document.getElementById('ps-cands').textContent=candidates.length;
-    document.getElementById('ps-placed').textContent=candidates.filter(c=>c.stage==='placed').length;
+    document.getElementById('ps-placed').textContent=candidates.filter(c=>c.stage==='hired').length;
     document.getElementById('ps-clients').textContent=clients.length;
   }
 }
@@ -1713,16 +1942,31 @@ function switchSearchMode(mode){
   document.getElementById('tab-bool').classList.toggle('active',mode==='bool');
   document.getElementById('basic-search-area').style.display=mode==='basic'?'block':'none';
   document.getElementById('bool-search-area').style.display=mode==='bool'?'block':'none';
-  if(mode==='basic'){lastBoolResults=null;renderCandidates(candidates);}
+  if(mode==='basic'){lastBoolResults=null;runBasicSearch();}
 }
 function runBasicSearch(){
   const s=(document.getElementById('cand-basic-search').value||'').toLowerCase();
   const nat=document.getElementById('cand-nat-filter').value;
   const stage=document.getElementById('cand-stage-filter').value;
-  renderCandidates(candidates.filter(c=>(c.name+c.position+c.nationality+c.location+c.visa+c.notice).toLowerCase().includes(s)&&(!nat||c.nationality===nat)&&(!stage||c.stage===stage)));
+  const sortBy=document.getElementById('cand-sort').value;
+  let results=candidates.filter(c=>(c.name+c.position+c.nationality+c.location+c.visa+c.notice).toLowerCase().includes(s)&&(!nat||c.nationality===nat)&&(!stage||c.stage===stage));
+  results=sortCandidates(results,sortBy);
+  renderCandidates(results);
+}
+function sortCandidates(list,sortBy){
+  const sorted=[...list];
+  if(sortBy==='az')sorted.sort((a,b)=>(a.name||'').localeCompare(b.name||''));
+  else if(sortBy==='za')sorted.sort((a,b)=>(b.name||'').localeCompare(a.name||''));
+  else if(sortBy==='newest')sorted.sort((a,b)=>b.id-a.id);
+  else if(sortBy==='oldest')sorted.sort((a,b)=>a.id-b.id);
+  return sorted;
+}
+function renderCandidatesDefault(){
+  const sortEl=document.getElementById('cand-sort');
+  renderCandidates(sortCandidates(candidates,sortEl?sortEl.value:''));
 }
 function insertBool(op){const inp=document.getElementById('bool-input');const pos=inp.selectionStart;inp.value=inp.value.substring(0,pos)+op+inp.value.substring(pos);inp.focus();inp.selectionStart=inp.selectionEnd=pos+op.length;}
-function clearBool(){document.getElementById('bool-input').value='';document.getElementById('bool-results-bar').style.display='none';lastBoolResults=null;renderCandidates(candidates);}
+function clearBool(){document.getElementById('bool-input').value='';document.getElementById('bool-results-bar').style.display='none';lastBoolResults=null;runBasicSearch();}
 function parseBool(q){
   const tokens=[];let i=0;q=q.trim();
   while(i<q.length){
@@ -1752,7 +1996,7 @@ function runBoolSearch(){
   const raw=document.getElementById('bool-input').value.trim();
   if(!raw){clearBool();return;}
   const tokens=parseBool(raw);
-  const results=candidates.filter(c=>{
+  let results=candidates.filter(c=>{
     const txt=(c.name+' '+c.position+' '+c.nationality+' '+c.location+' '+c.visa+' '+c.notice+' '+(cvTexts[c.id]||'')).toLowerCase();
     return evalBool([...tokens],txt);
   });
@@ -1761,7 +2005,8 @@ function runBoolSearch(){
   document.getElementById('bool-count').textContent=results.length;
   document.getElementById('bool-query-display').textContent=raw.length>40?raw.substring(0,40)+'...':raw;
   document.getElementById('bool-scope-info').textContent=results.filter(c=>cvTexts[c.id]).length+' matched in CV';
-  renderCandidates(results,raw);
+  const sortBy=document.getElementById('cand-sort')?document.getElementById('cand-sort').value:'';
+  renderCandidates(sortCandidates(results,sortBy),raw);
 }
 function highlightText(text,query){
   if(!query||!text)return text||'';
@@ -1827,7 +2072,7 @@ function saveCandidate(){
   document.getElementById('c-position').style.display='';
   document.getElementById('c-stage').value='applied';removePendingCV();
   document.getElementById('cand-badge').textContent=candidates.length;
-  renderCandidates(candidates);renderPipeline();updateDashboard();
+  renderCandidatesDefault();renderPipeline();updateDashboard();
   addActivity('Added candidate: '+name);
   saveData();
   showToast('✓ Candidate added'+(pendingCVFile?' with CV':''));
@@ -1854,10 +2099,13 @@ function renderCandidates(list,boolQuery){
       <td>${c.marital||'-'}</td><td>${cvCell}</td><td>${cvMatchCell}</td>
       <td><select class="btn btn-ghost btn-sm" style="padding:3px 6px;font-size:10px;width:auto" onchange="changeCandStage(${c.id},this.value)">
         <option value="applied"${c.stage==='applied'?' selected':''}>Applied</option>
+        <option value="screening"${c.stage==='screening'?' selected':''}>Screening</option>
         <option value="shortlisted"${c.stage==='shortlisted'?' selected':''}>Shortlisted</option>
         <option value="interview"${c.stage==='interview'?' selected':''}>Interview</option>
         <option value="offered"${c.stage==='offered'?' selected':''}>Offered</option>
-        <option value="placed"${c.stage==='placed'?' selected':''}>Placed</option>
+        <option value="hired"${c.stage==='hired'?' selected':''}>Hired</option>
+        <option value="rejected"${c.stage==='rejected'?' selected':''}>Rejected</option>
+        <option value="archived"${c.stage==='archived'?' selected':''}>Archived</option>
       </select></td>
       <td style="display:flex;gap:4px"><button class="btn btn-edit btn-sm" onclick="openEditCandidate(${c.id})"><i class="ti ti-edit"></i></button><button class="btn btn-danger btn-sm" onclick="deleteCandidate(${c.id})"><i class="ti ti-trash"></i></button></td>
     </tr>`;
@@ -1877,7 +2125,7 @@ function changeCandStage(id, stage) {
   renderPipeline(); updateDashboard(); saveData();
   refreshJobCandidatesModalIfOpen();
 }
-function deleteCandidate(id){candidates=candidates.filter(c=>c.id!==id);candidates.forEach((c,i)=>c.sl=i+1);delete cvFiles[id];delete cvTexts[id];document.getElementById('cand-badge').textContent=candidates.length;renderCandidates(candidates);renderPipeline();updateDashboard();saveData();refreshJobCandidatesModalIfOpen();}
+function deleteCandidate(id){candidates=candidates.filter(c=>c.id!==id);candidates.forEach((c,i)=>c.sl=i+1);delete cvFiles[id];delete cvTexts[id];document.getElementById('cand-badge').textContent=candidates.length;renderCandidatesDefault();renderPipeline();updateDashboard();saveData();refreshJobCandidatesModalIfOpen();}
 
 function saveJob(){
   const pos=document.getElementById('j-position').value.trim();
@@ -1889,13 +2137,34 @@ function saveJob(){
   selectedFAT=[];['fat-food','fat-acc','fat-trans'].forEach(id=>document.getElementById(id).classList.remove('selected'));
   document.getElementById('fat-selected').textContent='';
   document.getElementById('jobs-badge').textContent=jobs.length;
-  renderJobs();updateDashboard();addActivity('Created job: '+pos);saveData();showToast('✓ Job created');
+  renderJobsDefault();updateDashboard();addActivity('Created job: '+pos);saveData();showToast('✓ Job created');
 }
 function toggleFAT(id,val){const el=document.getElementById(id);if(selectedFAT.includes(val)){selectedFAT=selectedFAT.filter(f=>f!==val);el.classList.remove('selected');}else{selectedFAT.push(val);el.classList.add('selected');}document.getElementById('fat-selected').textContent=selectedFAT.length?'Selected: '+selectedFAT.join(', '):'';}
-function renderJobs(search,statusFilter){
+function sortJobs(list,sortBy){
+  const sorted=[...list];
+  if(sortBy==='az')sorted.sort((a,b)=>(a.position||'').localeCompare(b.position||''));
+  else if(sortBy==='za')sorted.sort((a,b)=>(b.position||'').localeCompare(a.position||''));
+  else if(sortBy==='newest')sorted.sort((a,b)=>b.id-a.id);
+  else if(sortBy==='oldest')sorted.sort((a,b)=>a.id-b.id);
+  return sorted;
+}
+function runJobsFilter(){
+  const search=document.getElementById('jobs-search-input').value;
+  const statusFilter=document.getElementById('jobs-status-filter').value;
+  const sortBy=document.getElementById('jobs-sort').value;
+  renderJobs(search,statusFilter,sortBy);
+}
+function renderJobsDefault(){
+  const searchEl=document.getElementById('jobs-search-input');
+  const statusEl=document.getElementById('jobs-status-filter');
+  const sortEl=document.getElementById('jobs-sort');
+  renderJobs(searchEl?searchEl.value:'',statusEl?statusEl.value:'',sortEl?sortEl.value:'');
+}
+function renderJobs(search,statusFilter,sortBy){
   search=search||'';statusFilter=statusFilter||'';
   const tbody=document.getElementById('jobs-tbody');
-  const f=jobs.filter(j=>(j.position+j.location+j.industry).toLowerCase().includes(search.toLowerCase())&&(!statusFilter||j.status===statusFilter));
+  let f=jobs.filter(j=>(j.position+j.location+j.industry).toLowerCase().includes(search.toLowerCase())&&(!statusFilter||j.status===statusFilter));
+  f=sortJobs(f,sortBy);
   if(!f.length){tbody.innerHTML='<tr><td colspan="12" class="empty-state">No jobs found.</td></tr>';return;}
   tbody.innerHTML=f.map((j,i)=>{
     const candCount=candidates.filter(c=>String(c.jobId)===String(j.id)).length;
@@ -1903,7 +2172,7 @@ function renderJobs(search,statusFilter){
     return `<tr><td style="color:var(--muted)">${i+1}</td><td><b>${j.position}</b>${j.client?`<div style="font-size:10px;color:var(--accent);margin-top:2px;display:flex;align-items:center;gap:3px"><i class="ti ti-building"></i>${j.client}</div>`:''}</td><td>${j.client?`<span onclick="viewClientJobs('${j.client.replace(/'/g,"\\'")}\')" style="font-size:11px;font-weight:600;color:var(--accent);cursor:pointer;display:inline-flex;align-items:center;gap:4px;padding:2px 8px;background:rgba(56,189,248,0.08);border:1px solid rgba(56,189,248,0.2);border-radius:6px;transition:all 0.15s" onmouseover="this.style.background='rgba(56,189,248,0.18)'" onmouseout="this.style.background='rgba(56,189,248,0.08)'" title="Click to view all positions for this client"><i class="ti ti-building" style="font-size:10px"></i>${j.client}</span>`:'<span style="color:var(--muted)">-</span>'}</td><td>${j.location||'-'}</td><td>${j.industry||'-'}</td><td>${j.days?j.days+' days':'-'}</td><td>${j.hours?j.hours+'h':'-'}</td><td>${j.salary?'QAR '+Number(j.salary).toLocaleString():'-'}</td><td>${j.fat&&j.fat.length?j.fat.map(f=>'<span class="tag">'+f+'</span>').join(''):'<span style="color:var(--muted)">-</span>'}</td><td><span class="badge ${j.status==='Active'?'badge-green':j.status==='Pending'?'badge-yellow':'badge-red'}">${j.status}</span></td><td>${candCell}</td><td style="display:flex;gap:4px"><button class="btn btn-edit btn-sm" onclick="openAddCandidateModal('${j.id}')" title="Add Candidate"><i class="ti ti-user-plus"></i></button><button class="btn btn-edit btn-sm" onclick="openEditJob(${j.id})" title="Edit Job"><i class="ti ti-edit"></i></button><button class="btn btn-danger btn-sm" onclick="deleteJob(${j.id})" title="Delete Job"><i class="ti ti-trash"></i></button></td></tr>`;
   }).join('');
 }
-function deleteJob(id){jobs=jobs.filter(j=>j.id!==id);if(String(currentViewedJobId)===String(id))closeModal('job-cands-modal');document.getElementById('jobs-badge').textContent=jobs.length;renderJobs();updateDashboard();saveData();showToast('✓ Job deleted');}
+function deleteJob(id){jobs=jobs.filter(j=>j.id!==id);if(String(currentViewedJobId)===String(id))closeModal('job-cands-modal');document.getElementById('jobs-badge').textContent=jobs.length;renderJobsDefault();updateDashboard();saveData();showToast('✓ Job deleted');}
 
 function viewClientJobs(clientName) {
   const clientJobs = jobs.filter(j => j.client === clientName);
@@ -2052,10 +2321,10 @@ function viewJobCandidates(jobId){
     document.getElementById('jcm-body').innerHTML=
       '<div class="empty-state" style="padding:40px 20px"><i class="ti ti-users" style="font-size:36px;display:block;margin-bottom:10px;color:var(--muted)"></i>No candidates linked to this job yet.<br><span style="font-size:11px">Click "Add Candidate to this Job" above to get started.</span></div>';
   }else{
-    const stages=['applied','shortlisted','interview','offered','placed'];
-    const stageLabels={applied:'Applied',shortlisted:'Shortlisted',interview:'Interview',offered:'Offered',placed:'Placed'};
-    const stageColors={applied:'rgba(56,189,248,0.1)',shortlisted:'rgba(251,191,36,0.1)',interview:'rgba(129,140,248,0.1)',offered:'rgba(251,113,133,0.1)',placed:'rgba(52,211,153,0.1)'};
-    const stageTextColors={applied:'var(--accent)',shortlisted:'var(--warning)',interview:'var(--accent2)',offered:'#FB7185',placed:'var(--success)'};
+    const stages=['applied','screening','shortlisted','interview','offered','hired','rejected','archived'];
+    const stageLabels={applied:'Applied',screening:'Screening',shortlisted:'Shortlisted',interview:'Interview',offered:'Offered',hired:'Hired',rejected:'Rejected',archived:'Archived'};
+    const stageColors={applied:'rgba(56,189,248,0.1)',screening:'rgba(103,232,249,0.1)',shortlisted:'rgba(251,191,36,0.1)',interview:'rgba(129,140,248,0.1)',offered:'rgba(251,113,133,0.1)',hired:'rgba(52,211,153,0.1)',rejected:'rgba(248,113,113,0.1)',archived:'rgba(100,116,139,0.1)'};
+    const stageTextColors={applied:'var(--accent)',screening:'#67E8F9',shortlisted:'var(--warning)',interview:'var(--accent2)',offered:'#FB7185',hired:'var(--success)',rejected:'var(--danger)',archived:'var(--muted2)'};
 
     const summaryHtml='<div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap">'+
       stages.map(s=>{
@@ -2074,10 +2343,13 @@ function viewJobCandidates(jobId){
         <td>${c.exp?c.exp:'<span style="color:var(--muted)">-</span>'}</td>
         <td><select class="btn btn-ghost btn-sm" style="padding:3px 6px;font-size:10px;width:auto" onchange="changeCandStage(${c.id},this.value)">
           <option value="applied"${c.stage==='applied'?' selected':''}>Applied</option>
+          <option value="screening"${c.stage==='screening'?' selected':''}>Screening</option>
           <option value="shortlisted"${c.stage==='shortlisted'?' selected':''}>Shortlisted</option>
           <option value="interview"${c.stage==='interview'?' selected':''}>Interview</option>
           <option value="offered"${c.stage==='offered'?' selected':''}>Offered</option>
-          <option value="placed"${c.stage==='placed'?' selected':''}>Placed</option>
+          <option value="hired"${c.stage==='hired'?' selected':''}>Hired</option>
+          <option value="rejected"${c.stage==='rejected'?' selected':''}>Rejected</option>
+          <option value="archived"${c.stage==='archived'?' selected':''}>Archived</option>
         </select></td>
         <td style="display:flex;gap:4px"><button class="btn btn-edit btn-sm" onclick="editCandidateFromJobModal(${c.id})" title="Edit"><i class="ti ti-edit"></i></button><button class="btn btn-danger btn-sm" onclick="deleteCandidate(${c.id})" title="Delete"><i class="ti ti-trash"></i></button></td>
       </tr>`;
@@ -2093,7 +2365,7 @@ function viewJobCandidates(jobId){
 }
 
 function renderPipeline(){
-  ['applied','shortlisted','interview','offered','placed'].forEach(stage=>{
+  ['applied','screening','shortlisted','interview','offered','hired','rejected','archived'].forEach(stage=>{
     const cont=document.getElementById('cards-'+stage);const sc=candidates.filter(c=>c.stage===stage);
     document.getElementById('cnt-'+stage).textContent=sc.length;
     cont.innerHTML=sc.length?sc.map(c=>`<div class="pipeline-card"><div class="pipeline-name">${c.name}</div><div class="pipeline-meta">${c.position||'No position'}</div><div class="pipeline-meta" style="margin-top:4px">${c.nationality||''}${c.visa?' · '+c.visa:''}</div></div>`).join(''):'<div style="text-align:center;padding:20px;color:var(--muted);font-size:11px">No candidates</div>';
@@ -2117,7 +2389,7 @@ function updateDashboard(){
   document.getElementById('d-jobs').textContent=jobs.length;
   document.getElementById('d-cands').textContent=candidates.length;
   document.getElementById('d-clients').textContent=clients.length;
-  document.getElementById('d-placed').textContent=candidates.filter(c=>c.stage==='placed').length;
+  document.getElementById('d-placed').textContent=candidates.filter(c=>c.stage==='hired').length;
   const jl=document.getElementById('dash-jobs-list');
   jl.innerHTML=jobs.length?jobs.slice(-5).reverse().map(j=>`<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)"><div><div style="font-size:12px;font-weight:600">${j.position}</div><div style="font-size:11px;color:var(--muted)">${j.location||''} · ${j.industry||''}</div></div><span class="badge ${j.status==='Active'?'badge-green':j.status==='Pending'?'badge-yellow':'badge-red'}">${j.status}</span></div>`).join(''):'<div class="empty-state"><i class="ti ti-briefcase" style="font-size:36px;display:block;margin-bottom:10px"></i>No jobs yet</div>';
   const cl=document.getElementById('dash-cands-list');
@@ -2126,13 +2398,13 @@ function updateDashboard(){
 function updateReports(){
   document.getElementById('r-jobs').textContent=jobs.length;
   document.getElementById('r-cands').textContent=candidates.length;
-  const placed=candidates.filter(c=>c.stage==='placed').length;
+  const placed=candidates.filter(c=>c.stage==='hired').length;
   document.getElementById('r-placed').textContent=placed;
   document.getElementById('r-rate').textContent=(candidates.length?Math.round(placed/candidates.length*100):0)+'%';
   const natMap={};candidates.forEach(c=>{if(c.nationality)natMap[c.nationality]=(natMap[c.nationality]||0)+1;});
   document.getElementById('r-nat-chart').innerHTML=Object.keys(natMap).length?Object.entries(natMap).sort((a,b)=>b[1]-a[1]).map(([n,cnt])=>`<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><div style="font-size:12px;min-width:90px;color:var(--text)">${n}</div><div style="flex:1;height:6px;background:var(--border);border-radius:3px"><div style="height:100%;background:var(--accent);border-radius:3px;width:${Math.round(cnt/candidates.length*100)}%"></div></div><div style="font-size:11px;color:var(--muted)">${cnt}</div></div>`).join(''):'<span style="color:var(--muted);font-size:12px">Add candidates to see data.</span>';
-  const colors={applied:'var(--accent)',shortlisted:'var(--warning)',interview:'var(--accent2)',offered:'#FB7185',placed:'var(--success)'};
-  document.getElementById('r-pipeline-chart').innerHTML=['applied','shortlisted','interview','offered','placed'].map(s=>{const cnt=candidates.filter(c=>c.stage===s).length;return`<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><div style="font-size:12px;min-width:90px;color:var(--text);text-transform:capitalize">${s}</div><div style="flex:1;height:6px;background:var(--border);border-radius:3px"><div style="height:100%;background:${colors[s]};border-radius:3px;width:${candidates.length?Math.round(cnt/candidates.length*100):0}%"></div></div><div style="font-size:11px;color:var(--muted)">${cnt}</div></div>`;}).join('');
+  const colors={applied:'var(--accent)',screening:'#67E8F9',shortlisted:'var(--warning)',interview:'var(--accent2)',offered:'#FB7185',hired:'var(--success)',rejected:'var(--danger)',archived:'var(--muted2)'};
+  document.getElementById('r-pipeline-chart').innerHTML=['applied','screening','shortlisted','interview','offered','hired','rejected','archived'].map(s=>{const cnt=candidates.filter(c=>c.stage===s).length;return`<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><div style="font-size:12px;min-width:90px;color:var(--text);text-transform:capitalize">${s}</div><div style="flex:1;height:6px;background:var(--border);border-radius:3px"><div style="height:100%;background:${colors[s]};border-radius:3px;width:${candidates.length?Math.round(cnt/candidates.length*100):0}%"></div></div><div style="font-size:11px;color:var(--muted)">${cnt}</div></div>`;}).join('');
 }
 function exportCSV(type){
   const list=lastBoolResults&&currentSearchMode==='bool'?lastBoolResults:candidates;
@@ -2506,7 +2778,7 @@ function saveEditCandidate() {
   }
 
   closeEditCandModal();
-  renderCandidates(candidates);
+  renderCandidatesDefault();
   renderPipeline();
   updateDashboard();
   saveData();
@@ -2579,7 +2851,7 @@ function saveEditJob() {
   };
 
   closeModal('edit-job-modal');
-  renderJobs();
+  renderJobsDefault();
   updateDashboard();
   saveData();
   showToast('✓ Job updated successfully');
@@ -2655,6 +2927,293 @@ function populateClientDropdown() {
   const current = sel.value;
   sel.innerHTML = '<option value="">No Client / Direct Hire</option>' +
     clients.map(cl => `<option value="${cl.company}" ${cl.company === current ? 'selected' : ''}>${cl.company}</option>`).join('');
+}
+
+
+// ══════════════════════════════════════════════════════════
+// GLOBAL SEARCH
+// ══════════════════════════════════════════════════════════
+let searchTimeout = null;
+
+function runGlobalSearch(query) {
+  clearTimeout(searchTimeout);
+  const dropdown = document.getElementById('search-results-dropdown');
+  if (!query || query.trim().length < 2) {
+    dropdown.classList.remove('open');
+    dropdown.innerHTML = '';
+    return;
+  }
+  searchTimeout = setTimeout(() => performSearch(query.trim()), 200);
+}
+
+function performSearch(query) {
+  const q = query.toLowerCase();
+  const dropdown = document.getElementById('search-results-dropdown');
+  const results = [];
+
+  // Search candidates
+  (candidates || []).forEach(c => {
+    if ((c.name + c.position + c.nationality + c.location + (c.visa||'')).toLowerCase().includes(q)) {
+      results.push({
+        type: 'candidate',
+        id: c.id,
+        name: c.name,
+        sub: (c.position || 'No position') + (c.nationality ? ' · ' + c.nationality : ''),
+        stage: c.stage,
+        icon: 'ti-user',
+        iconBg: 'rgba(56,189,248,0.12)',
+        iconColor: 'var(--accent)',
+        badgeCls: 'badge-blue',
+        badgeLabel: 'Candidate',
+        action: `navTo('candidates')`
+      });
+    }
+  });
+
+  // Search jobs
+  (jobs || []).forEach(j => {
+    if ((j.position + (j.location||'') + (j.industry||'') + (j.client||'')).toLowerCase().includes(q)) {
+      results.push({
+        type: 'job',
+        id: j.id,
+        name: j.position,
+        sub: [(j.client||''), (j.location||''), j.status].filter(Boolean).join(' · '),
+        icon: 'ti-briefcase',
+        iconBg: 'rgba(52,211,153,0.12)',
+        iconColor: 'var(--success)',
+        badgeCls: j.status === 'Active' ? 'badge-green' : j.status === 'Pending' ? 'badge-yellow' : 'badge-red',
+        badgeLabel: j.status || 'Job',
+        action: `navTo('jobs')`
+      });
+    }
+  });
+
+  // Search clients
+  (clients || []).forEach(cl => {
+    if ((cl.company + (cl.industry||'') + (cl.contact||'') + (cl.location||'')).toLowerCase().includes(q)) {
+      results.push({
+        type: 'client',
+        id: cl.id,
+        name: cl.company,
+        sub: [(cl.industry||''), (cl.contact||''), (cl.location||'')].filter(Boolean).join(' · '),
+        icon: 'ti-building',
+        iconBg: 'rgba(251,191,36,0.12)',
+        iconColor: 'var(--warning)',
+        badgeCls: cl.status === 'Active' ? 'badge-green' : 'badge-yellow',
+        badgeLabel: 'Client',
+        action: typeof openClientProfile !== 'undefined' ? `openClientProfile(${cl.id})` : `navTo('clients')`
+      });
+    }
+  });
+
+  if (!results.length) {
+    dropdown.innerHTML = `<div class="search-empty-state">
+      <i class="ti ti-search-off"></i>
+      No results found for "<strong>${escapeHtml(query)}</strong>"
+    </div>`;
+    dropdown.classList.add('open');
+    return;
+  }
+
+  // Group by type
+  const grouped = { candidate: [], job: [], client: [] };
+  results.slice(0, 12).forEach(r => grouped[r.type].push(r));
+
+  let html = '';
+  const sections = [
+    { key: 'candidate', label: 'Candidates', count: grouped.candidate.length },
+    { key: 'job',       label: 'Jobs',       count: grouped.job.length },
+    { key: 'client',    label: 'Clients',    count: grouped.client.length },
+  ];
+
+  sections.forEach(({ key, label, count }) => {
+    if (!count) return;
+    html += `<div class="search-dropdown-header">
+      <span>${label}</span>
+      <span style="font-size:10px;color:var(--accent)">${count} found</span>
+    </div>`;
+    grouped[key].forEach(r => {
+      const highlightedName = highlightMatch(r.name, query);
+      const highlightedSub  = highlightMatch(r.sub, query);
+      html += `<div class="search-result-item" onclick="${r.action};closeSearch()">
+        <div class="search-result-icon" style="background:${r.iconBg}">
+          <i class="ti ${r.icon}" style="color:${r.iconColor}"></i>
+        </div>
+        <div class="search-result-main">
+          <div class="search-result-name">${highlightedName}</div>
+          <div class="search-result-sub">${highlightedSub}</div>
+        </div>
+        <span class="badge ${r.badgeCls} search-result-type" style="font-size:9px">${r.badgeLabel}</span>
+      </div>`;
+    });
+  });
+
+  dropdown.innerHTML = html;
+  dropdown.classList.add('open');
+}
+
+function highlightMatch(text, query) {
+  if (!text || !query) return text || '';
+  const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return text.replace(new RegExp('(' + escaped + ')', 'gi'),
+    '<span class="search-highlight">$1</span>');
+}
+
+function escapeHtml(str) {
+  return str.replace(/[&<>"']/g, m =>
+    ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m]));
+}
+
+function closeSearch() {
+  const dd = document.getElementById('search-results-dropdown');
+  const inp = document.getElementById('global-search-input');
+  if (dd) { dd.classList.remove('open'); dd.innerHTML = ''; }
+  if (inp) inp.value = '';
+}
+
+function handleSearchKey(e) {
+  if (e.key === 'Escape') closeSearch();
+  if (e.key === 'Enter') {
+    const first = document.querySelector('.search-result-item');
+    if (first) first.click();
+  }
+}
+
+// Close search when clicking outside
+document.addEventListener('click', function(e) {
+  const box = document.querySelector('.search-box');
+  if (box && !box.contains(e.target)) closeSearch();
+});
+
+// ══════════════════════════════════════════════════════════
+// NOTIFICATIONS SYSTEM
+// ══════════════════════════════════════════════════════════
+let notifications = [];
+let notifOpen = false;
+
+function addNotification(msg, type, icon, iconBg) {
+  const notif = {
+    id: Date.now() + Math.random(),
+    msg,
+    type: type || 'info',
+    icon: icon || 'ti-bell',
+    iconBg: iconBg || 'rgba(56,189,248,0.12)',
+    iconColor: type === 'success' ? 'var(--success)'
+             : type === 'warning' ? 'var(--warning)'
+             : type === 'danger'  ? 'var(--danger)'
+             : 'var(--accent)',
+    time: 'Just now',
+    unread: true,
+    createdAt: Date.now()
+  };
+  notifications.unshift(notif);
+  if (notifications.length > 50) notifications = notifications.slice(0, 50);
+  updateNotifBadge();
+  renderNotifList();
+}
+
+function updateNotifBadge() {
+  const unreadCount = notifications.filter(n => n.unread).length;
+  const countEl = document.getElementById('notif-count');
+  if (!countEl) return;
+  if (unreadCount > 0) {
+    countEl.textContent = unreadCount > 99 ? '99+' : unreadCount;
+    countEl.classList.add('show');
+  } else {
+    countEl.classList.remove('show');
+  }
+}
+
+function toggleNotifPanel(e) {
+  if (e) e.stopPropagation();
+  const panel = document.getElementById('notif-panel');
+  if (!panel) return;
+  notifOpen = !notifOpen;
+  panel.classList.toggle('open', notifOpen);
+  if (notifOpen) {
+    // Mark as read after 2 seconds
+    setTimeout(() => {
+      notifications.forEach(n => n.unread = false);
+      updateNotifBadge();
+      renderNotifList();
+    }, 2000);
+  }
+}
+
+function renderNotifList() {
+  const list = document.getElementById('notif-list');
+  if (!list) return;
+  if (!notifications.length) {
+    list.innerHTML = `<div class="notif-empty"><i class="ti ti-bell-off"></i>No notifications yet</div>`;
+    return;
+  }
+  list.innerHTML = notifications.map(n => `
+    <div class="notif-item ${n.unread ? 'unread' : ''}" onclick="dismissNotif('${n.id}')">
+      <div class="notif-icon" style="background:${n.iconBg}">
+        <i class="ti ${n.icon}" style="color:${n.iconColor}"></i>
+      </div>
+      <div class="notif-text">
+        <div class="notif-msg">${n.msg}</div>
+        <div class="notif-time">${n.time}</div>
+      </div>
+    </div>`).join('');
+}
+
+function dismissNotif(id) {
+  notifications = notifications.filter(n => String(n.id) !== String(id));
+  updateNotifBadge();
+  renderNotifList();
+}
+
+function markAllRead(e) {
+  if (e) e.stopPropagation();
+  notifications.forEach(n => n.unread = false);
+  updateNotifBadge();
+  renderNotifList();
+}
+
+function clearAllNotifs(e) {
+  if (e) e.stopPropagation();
+  notifications = [];
+  updateNotifBadge();
+  renderNotifList();
+  const panel = document.getElementById('notif-panel');
+  if (panel) panel.classList.remove('open');
+  notifOpen = false;
+}
+
+// Close notification panel when clicking outside
+document.addEventListener('click', function(e) {
+  const wrap = document.getElementById('notif-bell-wrap');
+  if (wrap && !wrap.contains(e.target)) {
+    const panel = document.getElementById('notif-panel');
+    if (panel) panel.classList.remove('open');
+    notifOpen = false;
+  }
+});
+
+// ── Hook into existing save functions to fire notifications ──────────────
+
+// Patch showToast to also create a notification
+const _origShowToast = showToast;
+function showToast(msg, color) {
+  _origShowToast(msg, color);
+  // Map toast color to notif type
+  const type = color === 'var(--danger)'  ? 'danger'
+             : color === 'var(--warning)' ? 'warning'
+             : color === 'var(--success)' ? 'success'
+             : 'info';
+  const icon = type === 'danger'  ? 'ti-alert-circle'
+             : type === 'warning' ? 'ti-alert-triangle'
+             : type === 'success' ? 'ti-circle-check'
+             : 'ti-info-circle';
+  const bg   = type === 'danger'  ? 'rgba(248,113,113,0.12)'
+             : type === 'warning' ? 'rgba(251,191,36,0.12)'
+             : type === 'success' ? 'rgba(52,211,153,0.12)'
+             : 'rgba(56,189,248,0.12)';
+  // Clean up toast icon prefix
+  const cleanMsg = msg.replace(/^[✓✗⚠️✅👋📋]/u, '').trim();
+  addNotification(cleanMsg, type, icon, bg);
 }
 
 </script>
@@ -2854,6 +3413,200 @@ function populateClientDropdown() {
   .auth-right { padding: 24px 16px; }
   .auth-form-title { font-size: 20px; }
   .user-type-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+}
+
+
+/* ══════════════════════════════════════════
+   GLOBAL SEARCH & NOTIFICATIONS
+══════════════════════════════════════════ */
+
+/* Search box active state */
+.search-box { position: relative; }
+.search-box input:focus { outline: none; }
+
+/* Search results dropdown */
+#search-results-dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  width: 380px;
+  background: var(--sidebar);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+  z-index: 9999;
+  overflow: hidden;
+  max-height: 480px;
+  overflow-y: auto;
+}
+#search-results-dropdown.open { display: block; }
+
+.search-dropdown-header {
+  padding: 10px 16px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
+  background: var(--card2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.search-result-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: background 0.15s;
+  border-bottom: 1px solid var(--border);
+}
+.search-result-item:last-child { border-bottom: none; }
+.search-result-item:hover { background: var(--card2); }
+.search-result-icon {
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; flex-shrink: 0;
+}
+.search-result-main { flex: 1; min-width: 0; }
+.search-result-name {
+  font-size: 12px; font-weight: 600;
+  color: var(--text);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.search-result-sub {
+  font-size: 11px; color: var(--muted2); margin-top: 1px;
+}
+.search-result-type {
+  font-size: 10px; font-weight: 600;
+  padding: 2px 8px; border-radius: 20px;
+  flex-shrink: 0;
+}
+.search-empty-state {
+  padding: 28px 16px;
+  text-align: center;
+  color: var(--muted2);
+  font-size: 12px;
+}
+.search-empty-state i { font-size: 28px; display: block; margin-bottom: 8px; color: var(--muted); }
+.search-highlight { color: var(--accent); font-weight: 700; }
+
+/* Notification bell */
+.notif-bell-wrap { position: relative; cursor: pointer; display: flex; align-items: center; }
+.notif-dot {
+  position: absolute;
+  top: -2px; right: -2px;
+  width: 8px; height: 8px;
+  background: var(--danger);
+  border-radius: 50%;
+  border: 2px solid var(--sidebar);
+  display: none;
+}
+.notif-dot.show { display: block; }
+.notif-count {
+  position: absolute;
+  top: -5px; right: -8px;
+  background: var(--danger);
+  color: #fff;
+  font-size: 9px; font-weight: 800;
+  min-width: 16px; height: 16px;
+  border-radius: 8px;
+  display: none;
+  align-items: center; justify-content: center;
+  padding: 0 3px;
+  border: 1.5px solid var(--sidebar);
+  font-family: var(--font);
+}
+.notif-count.show { display: flex; }
+
+/* Notification dropdown */
+#notif-panel {
+  display: none;
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  width: 340px;
+  background: var(--sidebar);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+  z-index: 9999;
+  overflow: hidden;
+  max-height: 460px;
+  display: none;
+}
+#notif-panel.open { display: block; }
+
+.notif-panel-header {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.notif-panel-title { font-size: 13px; font-weight: 700; color: var(--text); }
+.notif-mark-all {
+  font-size: 11px; color: var(--accent);
+  cursor: pointer; font-weight: 600;
+  background: none; border: none; font-family: var(--font);
+}
+.notif-mark-all:hover { text-decoration: underline; }
+.notif-list { max-height: 360px; overflow-y: auto; }
+.notif-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: background 0.15s;
+  position: relative;
+}
+.notif-item:hover { background: var(--card2); }
+.notif-item.unread { background: rgba(56,189,248,0.04); }
+.notif-item.unread::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--accent);
+  border-radius: 0 2px 2px 0;
+}
+.notif-icon {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px; flex-shrink: 0;
+}
+.notif-text { flex: 1; min-width: 0; }
+.notif-msg { font-size: 12px; color: var(--text); line-height: 1.5; }
+.notif-msg strong { color: var(--text); }
+.notif-time { font-size: 10px; color: var(--muted); margin-top: 3px; }
+.notif-empty {
+  padding: 36px 16px;
+  text-align: center;
+  color: var(--muted2);
+  font-size: 12px;
+}
+.notif-empty i { font-size: 32px; display: block; margin-bottom: 10px; color: var(--muted); opacity: 0.5; }
+.notif-footer {
+  padding: 10px 16px;
+  border-top: 1px solid var(--border);
+  text-align: center;
+  font-size: 11px;
+  color: var(--accent);
+  cursor: pointer;
+  font-weight: 600;
+}
+.notif-footer:hover { background: var(--card2); }
+
+@media (max-width: 768px) {
+  #search-results-dropdown { width: calc(100vw - 24px); left: -160px; }
+  #notif-panel { width: 300px; right: -60px; }
 }
 
 </style>
